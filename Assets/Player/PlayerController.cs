@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour {
 	public enum FloorDirection {DOWN, UP, LEFT, RIGHT};
 	public FloorDirection floorDirection;
 	public GameObject cameraTargetChild;
-	bool facingRight = true;
+	public bool facingRight = true;
 	Quaternion targetRot = Quaternion.identity;
 	public AudioClip hitGroundSFX;
 	public AudioClip dieSFX;

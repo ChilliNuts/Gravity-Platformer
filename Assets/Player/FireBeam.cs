@@ -4,7 +4,7 @@ using System.Collections;
 public class FireBeam : MonoBehaviour {
 
 	LineRenderer beam;
-	public GameObject lazerSpawner;
+	GameObject lazerSpawner;
 	public float beamLife = 1f;
 	public AudioClip beamSFX;
 	Gun gun;
@@ -14,6 +14,7 @@ public class FireBeam : MonoBehaviour {
 	void Start () {
 		beam = GetComponent<LineRenderer>();
 		gun = FindObjectOfType<PlayerController>().GetComponent<Gun>();
+		lazerSpawner = GameObject.Find("GunTip");
 		beam.enabled = false;
 	}
 	

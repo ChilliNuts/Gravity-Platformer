@@ -1,0 +1,350 @@
+fileFormatVersion: 2
+guid: 33ed9ed3457f4dd4fa114b307ef9ed8e
+timeCreated: 1456186276
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Robot Legs Run Spritesheet_0
+    21300002: Robot Legs Run Spritesheet_1
+    21300004: Robot Legs Run Spritesheet_2
+    21300006: Robot Legs Run Spritesheet_3
+    21300008: Robot Legs Run Spritesheet_4
+    21300010: Robot Legs Run Spritesheet_5
+    21300012: Robot Legs Run Spritesheet_6
+    21300014: Robot Legs Run Spritesheet_7
+    21300016: Robot Legs Run Spritesheet_8
+    21300018: Robot Legs Run Spritesheet_9
+    21300020: Robot Legs Run Spritesheet_10
+    21300022: Robot Legs Run Spritesheet_11
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Robot Legs Run Spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 544
+        width: 744
+        height: 544
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 10, y: -249.25}
+        - {x: 9, y: -246.25}
+        - {x: -7, y: -246.25}
+        - {x: -8, y: -249.25}
+      - - {x: 63, y: -69.25}
+        - {x: 22, y: 0.75}
+        - {x: -40, y: 0.75}
+        - {x: -62, y: -3.25}
+        - {x: -100, y: -122.25}
+        - {x: -100, y: -204.25}
+        - {x: -80, y: -227.25}
+        - {x: -70, y: -234.25}
+        - {x: -55, y: -213.25}
+        - {x: -6, y: -240.25}
+        - {x: 62, y: -240.25}
+        - {x: 65, y: -221.25}
+        - {x: 67, y: -204.25}
+        - {x: 67, y: -101.25}
+    - name: Robot Legs Run Spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 744
+        y: 544
+        width: 744
+        height: 544
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 11.227936, y: -249.25}
+        - {x: 10.227936, y: -246.25}
+        - {x: -6.772064, y: -246.25}
+        - {x: -7.772064, y: -249.25}
+      - - {x: 19.227936, y: 0.75}
+        - {x: -9.772064, y: 0.75}
+        - {x: -55.772064, y: -15.25}
+        - {x: -55.772064, y: -193.25}
+        - {x: -24.772064, y: -248.25}
+        - {x: 46.227936, y: -248.25}
+        - {x: 55.227936, y: -186.25}
+        - {x: 55.227936, y: -96.25}
+        - {x: 35.227936, y: -30.25}
+    - name: Robot Legs Run Spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 1488
+        y: 544
+        width: 744
+        height: 544
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 27.455872, y: -231.25}
+        - {x: 81.45587, y: -150.25}
+        - {x: 81.45587, y: -86.25}
+        - {x: 32.45587, y: 0.75}
+        - {x: -50.54413, y: 0.75}
+        - {x: -50.54413, y: -249.25}
+        - {x: 11.455872, y: -249.25}
+        - {x: 9.455872, y: -230.25}
+        - {x: -1.5441284, y: -221.25}
+        - {x: -6.5441284, y: -195.25}
+    - name: Robot Legs Run Spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 2232
+        y: 544
+        width: 744
+        height: 544
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 11.683838, y: -249.25}
+        - {x: 10.683838, y: -246.25}
+        - {x: -5.316162, y: -246.25}
+        - {x: -6.316162, y: -249.25}
+      - - {x: -23.316162, y: 0.75}
+        - {x: -76.31616, y: -66.25}
+        - {x: -76.31616, y: -242.25}
+        - {x: 30.683838, y: -242.25}
+        - {x: 97.68384, y: -189.25}
+        - {x: 97.68384, y: -31.25}
+        - {x: 76.68384, y: 0.75}
+    - name: Robot Legs Run Spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 2976
+        y: 544
+        width: 744
+        height: 544
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 12.411743, y: -249.25}
+        - {x: 11.411743, y: -246.25}
+        - {x: -5.588257, y: -246.25}
+        - {x: -6.588257, y: -249.25}
+      - - {x: 15.411743, y: 0.75}
+        - {x: -7.588257, y: 0.75}
+        - {x: -43.588257, y: -28.25}
+        - {x: -40.588257, y: -46.25}
+        - {x: -125.58826, y: -155.25}
+        - {x: -125.58826, y: -206.25}
+        - {x: -122.58826, y: -224.25}
+        - {x: -56.588257, y: -224.25}
+        - {x: 77.41174, y: -206.25}
+        - {x: 95.41174, y: -170.25}
+        - {x: 95.41174, y: -16.25}
+    - name: Robot Legs Run Spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 3720
+        y: 544
+        width: 744
+        height: 544
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 11.1397705, y: -249.25}
+        - {x: 10.1397705, y: -246.25}
+        - {x: -5.8602295, y: -246.25}
+        - {x: -6.8602295, y: -249.25}
+      - - {x: -32.86023, y: 0.75}
+        - {x: -53.86023, y: -9.25}
+        - {x: -104.86023, y: -91.25}
+        - {x: -104.86023, y: -222.25}
+        - {x: 83.13977, y: -222.25}
+        - {x: 83.13977, y: -91.25}
+        - {x: 34.13977, y: 0.75}
+    - name: Robot Legs Run Spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 744
+        height: 544
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 67, y: -128.75}
+        - {x: 51, y: -21.75}
+        - {x: 12, y: 0.25}
+        - {x: -26, y: 0.25}
+        - {x: -44, y: -25.75}
+        - {x: -42, y: -80.75}
+        - {x: -62, y: -156.75}
+        - {x: -62, y: -212.75}
+        - {x: -60, y: -231.75}
+        - {x: -36, y: -235.75}
+        - {x: 10, y: -166.75}
+        - {x: 10, y: -164.75}
+        - {x: 16, y: -180.75}
+        - {x: 21, y: -223.75}
+        - {x: 23, y: -236.75}
+        - {x: 78, y: -236.75}
+        - {x: 79, y: -232.75}
+        - {x: 79, y: -219.75}
+        - {x: 63, y: -207.75}
+    - name: Robot Legs Run Spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 744
+        y: 0
+        width: 744
+        height: 544
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12.772064, y: 0.25}
+        - {x: -40.772064, y: -17.75}
+        - {x: -40.772064, y: -164.75}
+        - {x: -17.772064, y: -249.75}
+        - {x: 43.227936, y: -249.75}
+        - {x: 89.227936, y: -178.75}
+        - {x: 89.227936, y: -66.75}
+        - {x: 33.227936, y: 0.25}
+    - name: Robot Legs Run Spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 1488
+        y: 0
+        width: 744
+        height: 544
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -33.54413, y: 0.25}
+        - {x: -67.54413, y: -97.75}
+        - {x: -67.54413, y: -248.75}
+        - {x: 30.455872, y: -248.75}
+        - {x: 114.45587, y: -223.75}
+        - {x: 114.45587, y: 0.25}
+    - name: Robot Legs Run Spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 2232
+        y: 0
+        width: 744
+        height: 544
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 131.68384, y: -44.75}
+        - {x: 26.683838, y: 0.25}
+        - {x: -19.316162, y: 0.25}
+        - {x: -55.316162, y: -51.75}
+        - {x: -75.31616, y: -102.75}
+        - {x: -76.31616, y: -108.75}
+        - {x: -130.31616, y: -199.75}
+        - {x: -130.31616, y: -216.75}
+        - {x: -102.31616, y: -236.75}
+        - {x: -77.31616, y: -236.75}
+        - {x: -61.316162, y: -226.75}
+        - {x: 150.68384, y: -184.75}
+        - {x: 152.68384, y: -181.75}
+        - {x: 152.68384, y: -132.75}
+    - name: Robot Legs Run Spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 2976
+        y: 0
+        width: 744
+        height: 544
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 65.41174, y: 0.25}
+        - {x: -28.588257, y: 0.25}
+        - {x: -170.58826, y: -116.75}
+        - {x: -170.58826, y: -191.75}
+        - {x: -137.58826, y: -191.75}
+        - {x: -64.58826, y: -155.75}
+        - {x: 135.41174, y: -189.75}
+        - {x: 172.41174, y: -176.75}
+        - {x: 172.41174, y: -107.75}
+    - name: Robot Legs Run Spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 3720
+        y: 0
+        width: 744
+        height: 544
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 12.1397705, y: 0.25}
+        - {x: -7.8602295, y: 0.25}
+        - {x: -43.86023, y: -24.75}
+        - {x: -161.86023, y: -122.75}
+        - {x: -161.86023, y: -203.75}
+        - {x: 4.1397705, y: -215.75}
+        - {x: 136.13977, y: -215.75}
+        - {x: 149.13977, y: -210.75}
+        - {x: 149.13977, y: -174.75}
+        - {x: 87.13977, y: -63.75}
+      - - {x: -170.86023, y: -173.75}
+        - {x: -167.86023, y: -172.75}
+        - {x: -167.86023, y: -169.75}
+        - {x: -169.86023, y: -167.75}
+        - {x: -170.86023, y: -167.75}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
