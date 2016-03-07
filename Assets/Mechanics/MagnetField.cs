@@ -43,26 +43,39 @@ public class MagnetField : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D trigger){
 		if (on) {
 			if (trigger.gameObject == player.gameObject) {
-				player.magnetised = true;
 				SetPlayerFloor ();
-				StartCoroutine (player.RotatePlayer ()); 
+				if (!player.magnetised) {
+					StartCoroutine (player.RotatePlayer ());
+				} 
+				player.magnetised = true;
 			}
 		}
 	}
 	void OnTriggerStay2D(Collider2D trigger){
 		if (on) {
-			Rigidbody2D trigBody = trigger.GetComponent<Rigidbody2D> ();
-			if (trigBody != null && trigger.gameObject.tag != "Button") {
-				trigBody.AddForce (magnetForceDirection * ((trigBody.gravityScale + trigBody.mass) * magnetStrength));
+			if (trigger.gameObject.tag != "Button") {
+				Rigidbody2D trigBody = trigger.GetComponent<Rigidbody2D> ();
+				if (trigBody != null) {
+					//trigBody.AddForce(magnetForceDirection * Mathf.Abs(Physics2D.gravity.x + Physics2D.gravity.y));
+					trigBody.AddForce (magnetForceDirection * ((trigBody.gravityScale + trigBody.mass) * magnetStrength));
+				}
+			}
+			if(trigger.gameObject == player.gameObject){
+				if(!player.magnetised){
+					player.magnetised = true;
+				}
+				SetPlayerFloor();
 			}
 		}
 	}
 	void OnTriggerExit2D(Collider2D trigger){
 		if (on) {
 			if (trigger.gameObject == player.gameObject) {
-				player.magnetised = false;
 				player.ResetPlayerFloor ();
-				StartCoroutine (player.RotatePlayer ());
+				if (player.magnetised) {
+					StartCoroutine (player.RotatePlayer ());
+				}
+				player.magnetised = false;
 			}
 		}
 	}

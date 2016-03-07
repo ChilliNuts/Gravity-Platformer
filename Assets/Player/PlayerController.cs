@@ -32,10 +32,12 @@ public class PlayerController : MonoBehaviour {
 		anim = GetComponent<Animator>();
 		cameraTargetChild = transform.FindChild("Camera Target").gameObject;
 	}
-	
+	void FixedUpdate(){
+		Move ();
+	}
 	// Update is called once per frame
 	void Update () {
-		Move ();
+		
 		Jump ();
 
 		// Check if grounded
@@ -56,17 +58,15 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 		}
-//		if(!magnetised){
-//			print("rotating");
-//			RotatePlayer();
-//		}
+		if(magnetised){
+			CheckRotation();
+		}
 	}
 
 	public IEnumerator RotatePlayer(){
 
 
-		if(rotating)yield return new WaitForSeconds(0.25f);
-
+		if(rotating)yield return new WaitForSeconds(0.35f);
 		if (!rotating) {
 			rotating = true;
 			if (floorDirection == FloorDirection.UP) {
@@ -96,8 +96,10 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 		rotating = false;
+
 		yield return null;
 	}
+		
 
 	void Move(){
 		Vector2 moveVel = rB2D.velocity;
@@ -112,11 +114,18 @@ public class PlayerController : MonoBehaviour {
 				}else if(Input.GetAxis ("Horizontal") == 0 && anim.GetBool("boolRun")){
 					anim.SetBool("boolRun", false);
 				}
-				moveVel.x = Input.GetAxis ("Horizontal") * moveSpeed;
-				rB2D.velocity = moveVel;
-			}else if(Mathf.Abs ( moveVel.x) < moveSpeed){
-				moveVel.x = Input.GetAxisRaw ("Horizontal") * moveSpeed;
-				rB2D.AddForce(moveVel * 3);
+				if (!magnetised) {
+					if (Mathf.Abs (moveVel.x) < moveSpeed * 0.5f) {
+						moveVel.x += Input.GetAxisRaw ("Horizontal") * moveSpeed * 10;
+						rB2D.AddForce (moveVel);
+					}
+				}else {
+					moveVel.x = Input.GetAxis ("Horizontal") * moveSpeed * 0.5f;
+					rB2D.velocity = moveVel;
+				}
+			}else if(Mathf.Abs ( moveVel.x) < moveSpeed * 0.55f){
+				moveVel.x += Input.GetAxisRaw ("Horizontal") * moveSpeed * 6;
+				rB2D.AddForce(moveVel);
 			}
 
 
@@ -143,11 +152,18 @@ public class PlayerController : MonoBehaviour {
 				}else if(Input.GetAxis ("Vertical") == 0 && anim.GetBool("boolRun")){
 					anim.SetBool("boolRun", false);
 				}
-				moveVel.y = Input.GetAxis ("Vertical") * moveSpeed;
-				rB2D.velocity = moveVel;
-			}else if(Mathf.Abs ( moveVel.y) < moveSpeed){
-				moveVel.y = Input.GetAxisRaw ("Vertical") * moveSpeed;
-				rB2D.AddForce(moveVel * 3);
+				if (!magnetised) {
+					if (Mathf.Abs (moveVel.y) < moveSpeed * 0.5f) {
+						moveVel.y += Input.GetAxisRaw ("Vertical") * moveSpeed * 10;
+						rB2D.AddForce (moveVel);
+					}
+				}else{
+					moveVel.y = Input.GetAxis ("Vertical") * moveSpeed * 0.5f;
+					rB2D.velocity = moveVel;
+				}
+			}else if(Mathf.Abs ( moveVel.y) < moveSpeed * 0.55f){
+				moveVel.y += Input.GetAxisRaw ("Vertical") * moveSpeed * 6;
+				rB2D.AddForce(moveVel);
 			}
 
 
@@ -170,6 +186,7 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)){
 
 			if (grounded && floorDirection == FloorDirection.DOWN) {
+				//rB2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 				rB2D.velocity += jumpForce * Vector2.up;
 				grounded = false;
 			}
@@ -234,6 +251,25 @@ public class PlayerController : MonoBehaviour {
 			floorDirection = PlayerController.FloorDirection.LEFT;
 		}else if(SetGravityDirection.gDirection == SetGravityDirection.GDirection.RIGHT){
 			floorDirection = PlayerController.FloorDirection.RIGHT;
+		}
+	}
+	void CheckRotation(){
+		if (floorDirection == FloorDirection.UP) {
+			if(transform.rotation.eulerAngles != new Vector3 (0, 0, 180)){
+				RotatePlayer();
+			}
+		} else if (floorDirection == FloorDirection.DOWN) {
+			if(transform.rotation.eulerAngles != new Vector3 (0, 0, 0)){
+				RotatePlayer();
+			}
+		} else if (floorDirection == FloorDirection.LEFT) {
+			if(transform.rotation.eulerAngles != new Vector3 (0, 0, 270)){
+				RotatePlayer();
+			}
+		} else if (floorDirection == FloorDirection.RIGHT) {
+			if(transform.rotation.eulerAngles != new Vector3 (0, 0, 90)){
+				RotatePlayer();
+			}
 		}
 	}
 }

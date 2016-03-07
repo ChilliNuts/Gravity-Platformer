@@ -37,8 +37,6 @@ public class PlayerPrefsManager : MonoBehaviour {
 	public static void UnlockMaxLevel(int level){
 		if (level <= LevelManager.TotalPlayableLevels()){
 			PlayerPrefs.SetInt (MAX_LEVEL_UNLOCKED, level);
-		}else {
-			Debug.LogError("level does not exist in build order");
 		}
 	}
 	public static int ReturnMaxLevel(){

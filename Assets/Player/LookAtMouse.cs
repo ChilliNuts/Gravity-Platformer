@@ -10,6 +10,9 @@ public class LookAtMouse : MonoBehaviour {
 	public bool flip;
 	public bool rotate;
 
+	public bool clampRotation;
+	public float clampAngle;
+
 	void Start() {
 		x = transform.localScale.x;
 		ls = transform.localScale;
@@ -35,9 +38,20 @@ public class LookAtMouse : MonoBehaviour {
 				if (dir.x >= 0) {
 					if (rotate) {
 						if (player.floorDirection == PlayerController.FloorDirection.DOWN) {
-							transform.rotation = Quaternion.Euler (0f, 0f, rotZ);
+							if (clampRotation) {
+								float clampedRotZ = Mathf.Clamp (rotZ, -clampAngle, clampAngle);
+								transform.rotation = Quaternion.Euler (0f, 0f, clampedRotZ);
+							}else{
+								transform.rotation = Quaternion.Euler (0f, 0f, rotZ);
+							}
 						}else if(player.floorDirection == PlayerController.FloorDirection.UP){
-							transform.rotation = Quaternion.Euler (0f, 0f, -rotZ + 180);
+							float clampedRotZ = Mathf.Clamp (rotZ, -clampAngle, clampAngle);
+							if (clampRotation) {
+								
+								transform.rotation = Quaternion.Euler (0f, 0f, clampedRotZ + 180);
+							}else{
+								transform.rotation = Quaternion.Euler (0f, 0f, -rotZ + 180);
+							}
 						}
 					}
 					if (flip) {
