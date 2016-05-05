@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour {
 	public IEnumerator RotatePlayer(){
 
 
-		if(rotating)yield return new WaitForSeconds(0.35f);
+		if(rotating)yield return new WaitForSeconds(0.45f);
 		if (!rotating) {
 			rotating = true;
 			if (floorDirection == FloorDirection.UP) {
@@ -256,19 +256,27 @@ public class PlayerController : MonoBehaviour {
 	void CheckRotation(){
 		if (floorDirection == FloorDirection.UP) {
 			if(transform.rotation.eulerAngles != new Vector3 (0, 0, 180)){
-				RotatePlayer();
+				if (!rotating) {
+					StartCoroutine(RotatePlayer());
+				}
 			}
 		} else if (floorDirection == FloorDirection.DOWN) {
 			if(transform.rotation.eulerAngles != new Vector3 (0, 0, 0)){
-				RotatePlayer();
+				if (!rotating) {
+					StartCoroutine(RotatePlayer());
+				}
 			}
 		} else if (floorDirection == FloorDirection.LEFT) {
 			if(transform.rotation.eulerAngles != new Vector3 (0, 0, 270)){
-				RotatePlayer();
+				if (!rotating) {
+					StartCoroutine(RotatePlayer());
+				}
 			}
 		} else if (floorDirection == FloorDirection.RIGHT) {
 			if(transform.rotation.eulerAngles != new Vector3 (0, 0, 90)){
-				RotatePlayer();
+				if (!rotating) {
+					StartCoroutine(RotatePlayer());
+				}
 			}
 		}
 	}

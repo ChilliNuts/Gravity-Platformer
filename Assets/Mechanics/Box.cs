@@ -11,6 +11,7 @@ public class Box : MonoBehaviour {
 	BoxCollider2D box;
 	PlayerController player;
 	float speed;
+	float bounciness;
 
 	// Use this for initialization
 	void Start () {
@@ -19,18 +20,35 @@ public class Box : MonoBehaviour {
 		boxBody = GetComponent<Rigidbody2D>();
 		box = GetComponent<BoxCollider2D>();
 		player = FindObjectOfType<PlayerController>();
+		bounciness = box.sharedMaterial.bounciness;
 	}
 
 	public IEnumerator Respawn(){
 		yield return new WaitForSeconds(respawnDelay);
 		transform.position = spawnPos;
+		transform.rotation = Quaternion.identity;
+		boxBody.angularVelocity = 0;
+		boxBody.velocity = Vector2.zero;
 	}
 
 	void FixedUpdate(){
 		speed = boxBody.velocity.sqrMagnitude;
 	}
+		
+	void OnCollisionExit2D(Collision2D col){
+		if (transform.parent != null) {
+			transform.parent = null;
+			box.sharedMaterial.bounciness = bounciness;
+		}
+	}
 
 	void OnCollisionEnter2D(Collision2D col){
+
+		if(col.gameObject.GetComponentInParent<MovingPlatform>()){
+			box.sharedMaterial.bounciness = 0f;
+			transform.parent = col.gameObject.transform.parent;
+		}
+		
 		if(col.gameObject != player.gameObject){
 			if (speed > 250f){
 				if (!boxHit.isPlaying) {
@@ -45,7 +63,7 @@ public class Box : MonoBehaviour {
 				pushDamp = 4f;
 			}else pushDamp = 1f;
 
-			Vector2 contactPoint = new Vector2(transform.position.x, transform.position.y -0.5f);
+			Vector2 contactPoint = new Vector2(transform.position.x, transform.position.y);
 			boxBody.AddForceAtPosition(force * DampenPush(pushForce, pushDamp), contactPoint, ForceMode2D.Impulse);
 		}
 	}

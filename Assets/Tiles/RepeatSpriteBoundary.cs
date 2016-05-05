@@ -15,9 +15,11 @@ public class RepeatSpriteBoundary : MonoBehaviour {
 	public List<Sprite> tileSprites;
 	public bool setGridToScaleSize = true;
 	public bool tickToUpdate = true;
+	public bool createCollider = true;
 
 	Vector2 spriteSize_wu;
 	SpriteRenderer sprite;
+	BoxCollider2D myBoxCollider;
 
 	void Awake () {
 		if (Application.isPlaying) UpdateTiles();
@@ -48,9 +50,20 @@ public class RepeatSpriteBoundary : MonoBehaviour {
 		}
 		
 		sprite = GetComponent<SpriteRenderer>();
-		if(!SpritePivotAlignment.GetSpriteAlignment(gameObject).Equals(SpriteAlignment.TopRight)){
-			Debug.LogError("You forgot change the sprite pivot to Top Right.");
+
+
+
+		if (createCollider) {
+			if (GetComponent<BoxCollider2D> () != null) {
+				myBoxCollider = GetComponent<BoxCollider2D> ();
+			} else
+				myBoxCollider = gameObject.AddComponent<BoxCollider2D> ();
+			
+			if (!SpritePivotAlignment.GetSpriteAlignment (gameObject, myBoxCollider).Equals (SpriteAlignment.TopRight)) {
+				Debug.LogError ("You forgot change the sprite pivot to Top Right.");
+			}
 		}
+
 		Vector2 spriteSize_wu = new Vector2(sprite.bounds.size.x / transform.localScale.x, sprite.bounds.size.y / transform.localScale.y);
 		Vector3 scale = new Vector3(1.0f, 1.0f, 1.0f);
 		

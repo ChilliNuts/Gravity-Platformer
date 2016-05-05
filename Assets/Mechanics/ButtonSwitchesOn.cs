@@ -9,7 +9,7 @@ public class ButtonSwitchesOn : MonoBehaviour {
 
 	
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		switchState = SwitchState.IDLE;
 	}
 }

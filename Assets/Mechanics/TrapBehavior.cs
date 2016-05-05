@@ -13,6 +13,7 @@ public class TrapBehavior : MonoBehaviour {
 	ButtonSwitchesOn switchOn;
 	int targetWaypointIndex = 0;
 	SwitchLazer lazerswitch;
+	public bool moveOnInit = false;
 
 
 
@@ -24,6 +25,7 @@ public class TrapBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
 		if (switchOn != null) {
 			if (switchOn.switchState == ButtonSwitchesOn.SwitchState.ON) {
 
@@ -46,6 +48,10 @@ public class TrapBehavior : MonoBehaviour {
 				}
 				switchOn.switchState = ButtonSwitchesOn.SwitchState.IDLE;
 			}
+		}
+		if(lazerswitch != null && lazerswitch.on && moveOnInit){
+			moving = true;
+			moveOnInit = false;
 		}
 	}
 
@@ -90,6 +96,6 @@ public class TrapBehavior : MonoBehaviour {
 	}
 	void flipMoving(){
 		if(moving) moving = false;
-		else if(!moving)moving = true;
+		else if(!moving) moving = true;
 	}
 }

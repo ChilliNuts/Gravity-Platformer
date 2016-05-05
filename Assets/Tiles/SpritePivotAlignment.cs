@@ -2,16 +2,13 @@
 using System.Collections;
 
 public static class SpritePivotAlignment {
-	public static SpriteAlignment GetSpriteAlignment(GameObject SpriteObject){
 
-		BoxCollider2D MyBoxCollider;
+	public static SpriteAlignment GetSpriteAlignment(GameObject SpriteObject, BoxCollider2D spriteBoxCollider){
 
-		if(SpriteObject.GetComponent<BoxCollider2D>() != null){
-			MyBoxCollider = SpriteObject.GetComponent<BoxCollider2D>();
-		}else MyBoxCollider = SpriteObject.AddComponent<BoxCollider2D> ();
 
-		float colX = MyBoxCollider.offset.x;
-		float colY = MyBoxCollider.offset.y;
+
+		float colX = spriteBoxCollider.offset.x;
+		float colY = spriteBoxCollider.offset.y;
 
 		if (colX > 0f && colY < 0f)
 			return (SpriteAlignment.TopLeft);

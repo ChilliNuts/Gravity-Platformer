@@ -21,10 +21,10 @@ public class TriggerArea : MonoBehaviour {
 					if (s.switchState == ButtonSwitchesOn.SwitchState.IDLE) {
 						s.switchState = ButtonSwitchesOn.SwitchState.ON;
 						print ("triggerarea on");
-						if (singleUse) {
-							Destroy (gameObject);
-						}
 					}
+				}
+				if (singleUse) {
+					Destroy (gameObject);
 				}
 			}
 		}
@@ -37,10 +37,10 @@ public class TriggerArea : MonoBehaviour {
 					if (s.switchState == ButtonSwitchesOn.SwitchState.IDLE) {
 						s.switchState = ButtonSwitchesOn.SwitchState.ON;
 						print("triggerarea on");
-						if (singleUse){
-							Destroy(gameObject);
-						}
 					}
+				}
+				if (singleUse){
+					Destroy(gameObject);
 				}
 			}
 		}
