@@ -13,7 +13,7 @@ public class ResetLevelAfter : MonoBehaviour {
 	}
 
 	void ResetLevel(){
-		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
+		FindObjectOfType<LevelManager>().FadeOutAndLoad (SceneManager.GetActiveScene().buildIndex);
 	}
 
 }

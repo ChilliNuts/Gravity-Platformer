@@ -28,7 +28,7 @@ public class OptionsController : MonoBehaviour {
 	public void SaveAndExit(){
 		PlayerPrefsManager.SetMasterVolume(volumeSlider.value);
 		PlayerPrefsManager.SetMusicVolume(musicVolumeSlider.value);
-		levelManager.LoadLevel("01aStart Menu");
+		levelManager.FadeOutAndLoad(1);
 	}
 	public void BackToTitle(){
 		volumeSlider.value = PlayerPrefsManager.GetMasterVolume();

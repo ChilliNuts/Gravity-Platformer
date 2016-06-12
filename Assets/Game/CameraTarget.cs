@@ -13,16 +13,18 @@ public class CameraTarget : MonoBehaviour {
 	public float m_LookAheadReturnSpeed = 0.5f;
 	public float m_LookAheadMoveThreshold = 0.1f;
 
+	public bool playerIsDead;
 
 	void Start(){
 		followCam = FindObjectOfType<Camera2DFollow>();
 	}
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetMouseButtonDown(1)){
+
+		if(Input.GetMouseButtonDown(1) && playerIsDead == false){
 			followCam.MouseLookOn(m_Damping, m_LookAheadFactor, m_LookAheadReturnSpeed, m_LookAheadMoveThreshold);
 		}
-		if(Input.GetMouseButton(1)){
+		if(Input.GetMouseButton(1) && playerIsDead == false){
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
 			if (Vector3.Distance(Camera.main.transform.position, mousePos) > aimTolerance) {
@@ -35,9 +37,11 @@ public class CameraTarget : MonoBehaviour {
 				transform.position = Vector3.ClampMagnitude(new Vector3(newPos.x, newPos.y, newPos.z), distance) + center.position;
 			}
 
-		}else if(Input.GetMouseButtonUp (1)){
+		}else if(Input.GetMouseButtonUp (1) && playerIsDead == false){
 			followCam.MouseLookOff();
-			transform.localPosition = Vector3.zero;
+			if (transform.parent != null) {
+				transform.localPosition = Vector3.zero;
+			}
 		}
 	}
 }

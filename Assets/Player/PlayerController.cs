@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour {
 					anim.SetBool("boolRun", false);
 				}
 				if (!magnetised) {
-					if (Mathf.Abs (moveVel.x) < moveSpeed * 0.5f) {
+					if (Mathf.Abs (moveVel.x) < moveSpeed * 0.55f) {
 						moveVel.x += Input.GetAxisRaw ("Horizontal") * moveSpeed * 10;
 						rB2D.AddForce (moveVel);
 					}
@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour {
 					rB2D.velocity = moveVel;
 				}
 			}else if(Mathf.Abs ( moveVel.x) < moveSpeed * 0.55f){
-				moveVel.x += Input.GetAxisRaw ("Horizontal") * moveSpeed * 6;
+				moveVel.x += Input.GetAxisRaw ("Horizontal") * moveSpeed * 5;
 				rB2D.AddForce(moveVel);
 			}
 
@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour {
 					anim.SetBool("boolRun", false);
 				}
 				if (!magnetised) {
-					if (Mathf.Abs (moveVel.y) < moveSpeed * 0.5f) {
+					if (Mathf.Abs (moveVel.y) < moveSpeed * 0.55f) {
 						moveVel.y += Input.GetAxisRaw ("Vertical") * moveSpeed * 10;
 						rB2D.AddForce (moveVel);
 					}
@@ -162,7 +162,7 @@ public class PlayerController : MonoBehaviour {
 					rB2D.velocity = moveVel;
 				}
 			}else if(Mathf.Abs ( moveVel.y) < moveSpeed * 0.55f){
-				moveVel.y += Input.GetAxisRaw ("Vertical") * moveSpeed * 6;
+				moveVel.y += Input.GetAxisRaw ("Vertical") * moveSpeed * 5;
 				rB2D.AddForce(moveVel);
 			}
 
@@ -226,11 +226,13 @@ public class PlayerController : MonoBehaviour {
 		Instantiate(playerGhost, transform.position, Quaternion.identity);
 		cameraTargetChild.transform.parent = null;
 		transform.position = new Vector3(-666, -666, -666);
+		rB2D.velocity = Vector2.zero;
+		rB2D.gravityScale = 0;
 		if (!playerDestroyed) {
 			PlayerPrefsManager.UpdateStats (1, 0);
+			cameraTargetChild.GetComponent<CameraTarget>().playerIsDead = true;
 			playerDestroyed = true;
 		}
-		//Destroy (gameObject);
 	}
 	void OnCollisionEnter2D(Collision2D col){
 		if(col.gameObject.GetComponentInParent<MovingPlatform>()){

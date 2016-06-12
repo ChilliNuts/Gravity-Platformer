@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Box : MonoBehaviour {
 
-	public float respawnDelay = 1;
+	public float respawnDelay;
 	public float pushForce;
 	Vector2 spawnPos;
 	AudioSource boxHit;
@@ -12,6 +12,7 @@ public class Box : MonoBehaviour {
 	PlayerController player;
 	float speed;
 	float bounciness;
+	public bool destroyed;
 
 	// Use this for initialization
 	void Start () {
@@ -24,7 +25,13 @@ public class Box : MonoBehaviour {
 	}
 
 	public IEnumerator Respawn(){
-		yield return new WaitForSeconds(respawnDelay);
+		if (destroyed == false) {
+			yield return new WaitForSeconds (respawnDelay);
+			destroyed = true;
+		}
+	}
+	public void Reset(){
+		destroyed = false;
 		transform.position = spawnPos;
 		transform.rotation = Quaternion.identity;
 		boxBody.angularVelocity = 0;

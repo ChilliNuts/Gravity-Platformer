@@ -65,11 +65,14 @@ public class CustomParticle : MonoBehaviour {
 	void SpawnAdditionalParticles(GameObject toSpawn){
 		Vector2 force = new Vector2 (Random.Range (-explosionForce, explosionForce), Random.Range (-explosionForce, explosionForce));
 		GameObject newParticle = Instantiate (toSpawn, transform.position, Quaternion.identity) as GameObject;
-		myBody = newParticle.GetComponent<Rigidbody2D> ();
-		myBody.velocity = force;
+
 		float xPos = transform.position.x + Random.Range (-transform.localScale.x * 0.5f, +transform.localScale.x * 0.5f);
 		float yPos = transform.position.y + Random.Range (-transform.localScale.y * 0.5f, +transform.localScale.y * 0.5f);
 		Vector2 addRotPos = new Vector2 (xPos, yPos);
-		myBody.AddForceAtPosition (force * 50, addRotPos);
+		myBody = newParticle.GetComponent<Rigidbody2D> ();
+		if (myBody != null) {
+			myBody.velocity = force;
+			myBody.AddForceAtPosition (force * 50, addRotPos);
+		}
 	}
 }

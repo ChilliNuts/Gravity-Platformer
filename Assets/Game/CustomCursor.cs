@@ -4,7 +4,8 @@ using System.Collections;
 public class CustomCursor : MonoBehaviour {
 
 
-	public Texture2D cursorTexture;
+	public Texture2D menuCursorTexture;
+	public Texture2D crosshairCursorTexture;
 	public CursorMode cursorMode = CursorMode.Auto;
 	public Vector2 hotSpot = Vector2.zero;
 	public bool useCustomCursor = false;
@@ -23,10 +24,10 @@ public class CustomCursor : MonoBehaviour {
 	}
 	void UpdateCursor(){
 		if(useCustomCursor){
-			Cursor.SetCursor(cursorTexture, hotSpot, cursorMode);
+			Cursor.SetCursor(crosshairCursorTexture, hotSpot, cursorMode);
 		}
 		else if(!useCustomCursor){
-			Cursor.SetCursor(null, Vector2.zero, cursorMode);
+			Cursor.SetCursor(menuCursorTexture, hotSpot, cursorMode);
 		}
 	}
 }

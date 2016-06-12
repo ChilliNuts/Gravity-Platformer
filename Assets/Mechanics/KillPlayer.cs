@@ -4,12 +4,10 @@ using System.Collections;
 public class KillPlayer : MonoBehaviour {
 
 	PlayerController player;
-	Destructable[] destrucables;
 	public AudioClip playerHitSFX;
 
 	void Start(){
 		player = FindObjectOfType<PlayerController>();
-		destrucables = GameObject.FindObjectsOfType<Destructable>();
 	}
 
 	void OnTriggerEnter2D(Collider2D trigger){
@@ -19,8 +17,9 @@ public class KillPlayer : MonoBehaviour {
 			if (playerHitSFX != null) {
 				AudioSource.PlayClipAtPoint (playerHitSFX, transform.position);
 			}
-		}else foreach (Destructable d in destrucables){
-			if(trigger.gameObject == d.gameObject){
+		}else {
+			Destructable d = trigger.gameObject.GetComponent<Destructable>();
+			if(d != null){
 				d.Destruct ();
 			}
 		}
@@ -32,8 +31,9 @@ public class KillPlayer : MonoBehaviour {
 			if (playerHitSFX != null) {
 				AudioSource.PlayClipAtPoint (playerHitSFX, transform.position);
 			}
-		}else foreach (Destructable d in destrucables){
-				if(collision.gameObject == d.gameObject){
+		}else {
+			Destructable d = collision.gameObject.GetComponent<Destructable>();
+			if(d != null){
 				d.Destruct ();
 			}
 		}
@@ -45,11 +45,12 @@ public class KillPlayer : MonoBehaviour {
 			if (playerHitSFX != null) {
 				AudioSource.PlayClipAtPoint (playerHitSFX, transform.position);
 			}
-		}else foreach (Destructable d in destrucables){
-				if(trigger.gameObject == d.gameObject){
-					d.Destruct ();
-				}
+		}else {
+			Destructable d = trigger.gameObject.GetComponent<Destructable>();
+			if(d != null){
+				d.Destruct ();
 			}
+		}
 	}
 
 	void OnCollisionExit2D(Collision2D collision){
@@ -58,10 +59,11 @@ public class KillPlayer : MonoBehaviour {
 			if (playerHitSFX != null) {
 				AudioSource.PlayClipAtPoint (playerHitSFX, transform.position);
 			}
-		}else foreach (Destructable d in destrucables){
-				if(collision.gameObject == d.gameObject){
-					d.Destruct ();
-				}
+		}else {
+			Destructable d = collision.gameObject.GetComponent<Destructable>();
+			if(d != null){
+				d.Destruct ();
 			}
+		}
 	}
 }

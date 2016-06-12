@@ -5,18 +5,27 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour {
 
 	public float autoLoadNextLevelAfter;
+	public Fade curtainBackup;
+
 	bool gamePaused = false;
 	public GameObject pauseMenu;
 	Gun playerGun;
 	Rigidbody2D playerBody;
 	CustomCursor cursor;
+	Fade levelCurtain;
+
 
 	void Start(){
+		
 		if(GameObject.FindObjectOfType<PlayerController>() != null){
 			playerBody = GameObject.FindObjectOfType<PlayerController>().GetComponent<Rigidbody2D>();
 		}
 		cursor = FindObjectOfType<CustomCursor>();
 		playerGun = FindObjectOfType<Gun>();
+		levelCurtain = FindObjectOfType<Fade>();
+		if(levelCurtain == null){
+			InstantiateCurtain();
+		}
 
 		if(PlayerPrefsManager.ReturnMaxLevel() < 1){
 			PlayerPrefsManager.UnlockMaxLevel(1);
@@ -34,6 +43,7 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	void Update(){
+
 		if(Input.GetKeyDown(KeyCode.Escape)){
 			if(LevelManager.ReturnLevelNumber() >= 1 && pauseMenu != null){
 				if(!gamePaused){
@@ -45,14 +55,15 @@ public class LevelManager : MonoBehaviour {
 		}
 	}
 
-	public void LoadLevel(string level){
-		Debug.Log("New level load: "+ level);
+	public void LoadLevel(int levelId){
+		Debug.Log("New level load: "+ levelId);
 		Camera2DFollow.firstSlowPan = true;
-		SceneManager.LoadScene(level);
+		FadeOutAndLoad(levelId);
 	}
 	public void ContinueGame(){
 		Camera2DFollow.firstSlowPan = true;
-		SceneManager.LoadScene(PlayerPrefsManager.ReturnMaxLevel() + 3);
+		FadeOutAndLoad(PlayerPrefsManager.ReturnMaxLevel() + 3);
+		//SceneManager.LoadScene(PlayerPrefsManager.ReturnMaxLevel() + 3);
 	}
 	public void QuitRequest(){
 		Debug.Log("You have quit!");
@@ -62,7 +73,8 @@ public class LevelManager : MonoBehaviour {
 		if ((LevelManager.ReturnLevelNumber()) >= PlayerPrefsManager.ReturnMaxLevel()) {
 			PlayerPrefsManager.UnlockMaxLevel (PlayerPrefsManager.ReturnMaxLevel () + 1);
 		}
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+		FadeOutAndLoad(SceneManager.GetActiveScene().buildIndex + 1);
+		//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 
 	public void EnterPauseMenu(){
@@ -93,5 +105,15 @@ public class LevelManager : MonoBehaviour {
 	public static int TotalPlayableLevels(){
 		int numberOfNonPlayableLevels = 5;
 		return SceneManager.sceneCountInBuildSettings - numberOfNonPlayableLevels;
+	}
+
+	public void FadeOutAndLoad (int levelToLoad){
+		levelCurtain.gameObject.SetActive(true);
+		levelCurtain.levelToLoadId = levelToLoad;
+		levelCurtain.fadeOut = true;
+	}
+
+	void InstantiateCurtain(){
+		levelCurtain = Instantiate(curtainBackup)as Fade;
 	}
 }

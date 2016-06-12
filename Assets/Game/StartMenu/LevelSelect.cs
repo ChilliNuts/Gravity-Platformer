@@ -27,6 +27,7 @@ public class LevelSelect : MonoBehaviour {
 	}
 
 	public void GoToSelectedLevel(){
-		SceneManager.LoadScene(levelToLoad);
+		FindObjectOfType<LevelManager>().FadeOutAndLoad(levelToLoad);
+		//SceneManager.LoadScene(levelToLoad);
 	}
 }

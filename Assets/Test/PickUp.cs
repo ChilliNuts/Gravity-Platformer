@@ -6,6 +6,10 @@ public class PickUp : MonoBehaviour {
 	public GameObject player;
 	public ParticleSystem gunPickupFX;
 	public AudioClip pickupSFX;
+	public GameObject[] noGun;
+	public GameObject withGun;
+	public GameObject gunBarrel;
+	public LookAtMouse lookAtMouse;
 	float yPos;
 
 	void Update(){
@@ -13,9 +17,24 @@ public class PickUp : MonoBehaviour {
 	}
 	void OnTriggerEnter2D(Collider2D trigger){
 		if (trigger.gameObject == player.gameObject){
+			
+			CustomCursor cursor = Camera.main.GetComponent<CustomCursor>();
+			cursor.useCustomCursor = true;
+			cursor.updateCursor = true;
+
 			AudioSource.PlayClipAtPoint(pickupSFX, transform.position);
-			player.GetComponent<Gun>().enabled = true;
+
+			foreach (GameObject arm in noGun){
+				arm.SetActive(false);
+			}
+			withGun.SetActive(true);
+			gunBarrel.GetComponent<FireBeam>().lazerSpawner = GameObject.FindGameObjectWithTag("GunTip");
+
 			gunPickupFX.loop = false;
+			player.GetComponent<Gun>().enabled = true;
+			lookAtMouse.flip = true;
+
+
 			Destroy (gameObject);
 		}
 	}

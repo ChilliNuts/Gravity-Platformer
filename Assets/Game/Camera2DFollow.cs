@@ -19,7 +19,7 @@ public class Camera2DFollow : MonoBehaviour
 
 	private bool beforeMove;
 	private float xMoveDelta;
-	private static Vector3 playerDeathPos;
+	private static Vector3 playerStartPos;
 	float o_Damping;
 	float o_LookAheadFactor;
 	float o_LookAheadReturnSpeed;
@@ -36,12 +36,17 @@ public class Camera2DFollow : MonoBehaviour
         m_LastTargetPosition = target.position;
         m_OffsetZ = (transform.position - target.position).z;
         transform.parent = null;
+		playerStartPos = FindObjectOfType<PlayerController>().transform.position;
+		playerStartPos.y += 20f;
 
 		if(firstSlowPan){
 			transform.position = GameObject.FindGameObjectWithTag("Exit").transform.position + Vector3.forward * m_OffsetZ;
 			beforeMove = true;
 			firstSlowPan = false;
-		}else transform.position = playerDeathPos;
+		}else {
+			transform.position = playerStartPos + Vector3.forward * m_OffsetZ;
+			beforeMove = true;
+		}
     }
 
 
@@ -80,7 +85,6 @@ public class Camera2DFollow : MonoBehaviour
 			transform.position = newPos;
         	
 			m_LastTargetPosition = target.position;
-			playerDeathPos = target.position;
 		}
     }
 
