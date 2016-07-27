@@ -13,6 +13,7 @@ public class LevelManager : MonoBehaviour {
 	Rigidbody2D playerBody;
 	CustomCursor cursor;
 	Fade levelCurtain;
+	public AudioClip[] musicPoolArray;
 
 
 	void Start(){
@@ -31,6 +32,7 @@ public class LevelManager : MonoBehaviour {
 			PlayerPrefsManager.UnlockMaxLevel(1);
 		}
 		if (SceneManager.GetActiveScene().name == "00Splash"){
+			Cursor.visible = false;
 			if (autoLoadNextLevelAfter <= 0){
 				Debug.Log("Auto load disabled, use a positive number to enable");
 			}else{
@@ -45,7 +47,9 @@ public class LevelManager : MonoBehaviour {
 	void Update(){
 
 		if(Input.GetKeyDown(KeyCode.Escape)){
-			if(LevelManager.ReturnLevelNumber() >= 1 && pauseMenu != null){
+			LevelTitle levelTitle = FindObjectOfType<LevelTitle>();
+
+			if(LevelManager.ReturnLevelNumber() >= 1 && pauseMenu != null && levelTitle == null){
 				if(!gamePaused){
 					EnterPauseMenu();
 				}else if(gamePaused){
@@ -56,12 +60,16 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	public void LoadLevel(int levelId){
-		Debug.Log("New level load: "+ levelId);
+		Debug.Log("New level load: "+ ReturnLevelNumber());
 		Camera2DFollow.firstSlowPan = true;
+		if (ReturnLevelNumber() > 1) {
+			FindObjectOfType<MusicManager> ().ChangeMusicOnExitMenus ();
+		}
 		FadeOutAndLoad(levelId);
 	}
 	public void ContinueGame(){
 		Camera2DFollow.firstSlowPan = true;
+		FindObjectOfType<MusicManager>().ChangeMusicOnExitMenus();
 		FadeOutAndLoad(PlayerPrefsManager.ReturnMaxLevel() + 3);
 		//SceneManager.LoadScene(PlayerPrefsManager.ReturnMaxLevel() + 3);
 	}
@@ -115,5 +123,8 @@ public class LevelManager : MonoBehaviour {
 
 	void InstantiateCurtain(){
 		levelCurtain = Instantiate(curtainBackup)as Fade;
+	}
+	public void MuteSound(){
+		FindObjectOfType<MusicManager>().SwitchMute();
 	}
 }

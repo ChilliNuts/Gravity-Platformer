@@ -12,7 +12,6 @@ public class KillPlayer : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D trigger){
 		if(trigger.gameObject == player.gameObject){
-			print("hit");
 			player.DestroyPlayer ();
 			if (playerHitSFX != null) {
 				AudioSource.PlayClipAtPoint (playerHitSFX, transform.position);

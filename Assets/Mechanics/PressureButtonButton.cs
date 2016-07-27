@@ -7,7 +7,6 @@ public class PressureButtonButton : MonoBehaviour {
 	Rigidbody2D myBody;
 	SpriteRenderer mySprite;
 	public float upForce = 1f;
-	//public List<GameObject> connectedTo;
 	public List<ButtonSwitchesOn> switchOn;
 	public AudioClip onSFX;
 	public AudioClip offSFX;
@@ -18,7 +17,6 @@ public class PressureButtonButton : MonoBehaviour {
 	void Start () {
 		myBody = GetComponent<Rigidbody2D>();
 		mySprite = GetComponent<SpriteRenderer>();
-//		myBody.isKinematic = true;
 	}
 	
 	// Update is called once per frame
@@ -28,7 +26,6 @@ public class PressureButtonButton : MonoBehaviour {
 				myBody.AddRelativeForce (Vector2.up * upForce);
 			} else if (transform.localPosition.y > 0f) {
 				transform.localPosition = Vector2.zero;
-				//			myBody.isKinematic = true;
 			}
 		}
 	}

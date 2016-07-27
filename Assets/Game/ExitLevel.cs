@@ -5,6 +5,7 @@ public class ExitLevel : MonoBehaviour {
 
 	LevelManager levelManager;
 	PlayerController player;
+	Animator anim;
 	public float loadNextLevelAfter = 0f;
 	public GameObject exitFX;
 	public AudioClip exitSFX;
@@ -13,28 +14,31 @@ public class ExitLevel : MonoBehaviour {
 	void Start(){
 		levelManager = FindObjectOfType<LevelManager>();
 		player = FindObjectOfType<PlayerController>();
+		anim = GetComponent<Animator>();
 	}
 
 	void OnTriggerStay2D(Collider2D trigger){
 
 		if(trigger.gameObject == player.gameObject && CorrectRotation (trigger) && !exited){
 			exited = true;
-			Invoke("Exit", 0.25f);
+			//Exit();
+			Invoke("Exit", 0.15f);
 		}
 	}
 	bool CorrectRotation(Collider2D trigger){
-		string thisRot = Mathf.Abs ((int)transform.rotation.eulerAngles.z).ToString ();
-		string triggerRot = Mathf.Abs ((int)trigger.gameObject.transform.rotation.eulerAngles.z).ToString ();
-		print (thisRot +" , "+ triggerRot);
+		int thisRot = Mathf.Abs ((int)transform.rotation.eulerAngles.z);
+		int triggerRot = Mathf.Abs ((int)trigger.gameObject.transform.rotation.eulerAngles.z);
 		if(thisRot == triggerRot) return true;
 		else return false;
 	}
 
 	void Exit(){
 		AudioSource.PlayClipAtPoint(exitSFX, transform.position);
-		Instantiate(exitFX, player.transform.position, player.transform.rotation);
+		Instantiate(exitFX, player.transform.position, transform.rotation);
+		player.cameraTargetChild.GetComponent<CameraTarget>().playerIsDead = true;
 		player.cameraTargetChild.transform.parent = null;
 		player.transform.position = new Vector3(666, 666, 666);
+		anim.SetTrigger("playerExit");
 		Camera2DFollow.firstSlowPan = true;
 		Invoke("NextLevel", loadNextLevelAfter);
 	}

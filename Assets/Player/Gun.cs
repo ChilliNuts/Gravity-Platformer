@@ -5,10 +5,18 @@ public class Gun : MonoBehaviour {
 
 	public bool canFireLazer = true;
 	public GameObject lazerHitFX;
+	public GameObject lazerFailFX;
+	public Transform holdPosition;
 	public static bool vControl = false;
+	public float grabDistance;
 	
 	PlayerController player;
 	FireBeam fireBeam;
+	public GameObject heldObject;
+	bool holdingObject;
+
+	int objectLayer;
+	float objectGravity;
 
 
 	// Use this for initialization
@@ -20,12 +28,21 @@ public class Gun : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown(0) && !player.rotating && !vControl){
-			if (canFireLazer && !player.playerDestroyed){
-				canFireLazer = false;
-				PlayerPrefsManager.UpdateStats(0,1);
-				FireLazer();
-			}
+		
+		if (Input.GetMouseButtonDown(0) && !player.rotating){
+			if (!holdingObject) {
+				if (canFireLazer && !player.playerDestroyed) {
+					canFireLazer = false;
+					PlayerPrefsManager.UpdateStats (0, 1);
+					FireLazer ();
+				}
+			}else DropBox(heldObject);
+		}
+	}
+
+	void FixedUpdate(){
+		if (heldObject != null) {
+			HoldObject (heldObject, holdPosition.position);
 		}
 	}
 
@@ -43,7 +60,11 @@ public class Gun : MonoBehaviour {
 				player.ResetPlayerFloor ();
 				StartCoroutine( player.RotatePlayer ());
 			}
-		}
+		}else if(hit.collider.gameObject.tag == "Box"){
+			if (hit.distance <= grabDistance) {
+				PickUpBox (hit.collider.gameObject);
+			}
+		}else Instantiate (lazerFailFX, hit.point, Quaternion.identity);
 	}
 
 	void LazerContact(RaycastHit2D hit){
@@ -64,7 +85,33 @@ public class Gun : MonoBehaviour {
 			SetGravityDirection.gDirection = SetGravityDirection.GDirection.RIGHT;
 		}
 	}
-	
+
+	void PickUpBox(GameObject target){
+		if (heldObject == null) {
+			holdingObject = true;
+			objectLayer = target.layer;
+			objectGravity = target.GetComponent<Rigidbody2D> ().gravityScale;
+			target.layer = 9;
+			target.GetComponent<Rigidbody2D> ().gravityScale = 0f;
+			target.GetComponent<Box> ().isHeld = true;
+			heldObject = target;
+		}
+	}
+	public void DropBox(GameObject target){
+		if(heldObject != null){
+			target.layer = objectLayer;
+			target.GetComponent<Rigidbody2D> ().gravityScale = objectGravity;
+			target.GetComponent<Box> ().isHeld = false;
+			heldObject = null;
+			holdingObject = false;
+		}
+	}
+
+	void HoldObject(GameObject target, Vector3 hPos){
+		target.transform.position = Vector3.Slerp(target.transform.position, hPos, 10f * Time.deltaTime);
+	}
+
+
 //	void LaunchBullet(){
 //		Vector3 mPos = Input.mousePosition;
 //		Offset = Camera.main.ScreenToWorldPoint(mPos) - transform.position;

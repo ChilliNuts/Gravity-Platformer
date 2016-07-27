@@ -23,6 +23,11 @@ public class PlayerController : MonoBehaviour {
 	Rigidbody2D rB2D;
 	Animator anim;
 	public bool playerDestroyed = false;
+	public GameObject entryFX;
+	public GameObject footDustFX;
+	GameObject dustSpawnPos;
+	bool dustSpawned;
+	Gun gun;
 
 	
 
@@ -31,6 +36,9 @@ public class PlayerController : MonoBehaviour {
 		rB2D = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 		cameraTargetChild = transform.FindChild("Camera Target").gameObject;
+		Instantiate(entryFX, transform.position, transform.rotation);
+		dustSpawnPos = GameObject.Find("DustSpawnPos");
+		gun = GetComponent<Gun>();
 	}
 	void FixedUpdate(){
 		Move ();
@@ -46,6 +54,8 @@ public class PlayerController : MonoBehaviour {
 			if (!grounded) {
 				grounded = true;
 				AudioSource.PlayClipAtPoint (hitGroundSFX, transform.position);
+				dustSpawned = false;
+				FootDust();
 				if (!anim.GetBool ("boolGrounded")) {
 					anim.SetBool ("boolGrounded", true);
 				}
@@ -53,6 +63,7 @@ public class PlayerController : MonoBehaviour {
 		}else {
 			if (grounded) {
 				grounded = false;
+				FootDust();
 				if (anim.GetBool ("boolGrounded")) {
 					anim.SetBool ("boolGrounded", false);
 				}
@@ -225,6 +236,7 @@ public class PlayerController : MonoBehaviour {
 		Instantiate(deathFX, transform.position, Quaternion.identity);
 		Instantiate(playerGhost, transform.position, Quaternion.identity);
 		cameraTargetChild.transform.parent = null;
+		gun.DropBox(gun.heldObject);
 		transform.position = new Vector3(-666, -666, -666);
 		rB2D.velocity = Vector2.zero;
 		rB2D.gravityScale = 0;
@@ -280,6 +292,14 @@ public class PlayerController : MonoBehaviour {
 					StartCoroutine(RotatePlayer());
 				}
 			}
+		}
+	}
+	void FootDust(){
+		if (!dustSpawned) {
+			Vector2 spawnPos = dustSpawnPos.transform.position;
+
+			Instantiate (footDustFX, spawnPos, transform.rotation);
+			dustSpawned = true;
 		}
 	}
 }

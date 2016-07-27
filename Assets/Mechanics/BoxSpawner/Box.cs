@@ -13,6 +13,8 @@ public class Box : MonoBehaviour {
 	float speed;
 	float bounciness;
 	public bool destroyed;
+	public bool isHeld;
+	ParticleSystem orb;
 
 	// Use this for initialization
 	void Start () {
@@ -22,9 +24,15 @@ public class Box : MonoBehaviour {
 		box = GetComponent<BoxCollider2D>();
 		player = FindObjectOfType<PlayerController>();
 		bounciness = box.sharedMaterial.bounciness;
+		orb = GetComponentInChildren<ParticleSystem>();
+		orb.Stop();
 	}
 
 	public IEnumerator Respawn(){
+		if(isHeld){
+			orb.Clear();
+			FindObjectOfType<Gun>().DropBox(gameObject);
+		}
 		if (destroyed == false) {
 			yield return new WaitForSeconds (respawnDelay);
 			destroyed = true;
@@ -37,13 +45,20 @@ public class Box : MonoBehaviour {
 		boxBody.angularVelocity = 0;
 		boxBody.velocity = Vector2.zero;
 	}
+	void Update(){
+		if(isHeld && orb.isStopped){
+			orb.Play();
+		}else if(!isHeld && orb.isPlaying){
+			orb.Stop();
+		}
+	}
 
 	void FixedUpdate(){
 		speed = boxBody.velocity.sqrMagnitude;
 	}
 		
 	void OnCollisionExit2D(Collision2D col){
-		if (transform.parent != null) {
+		if (transform.parent != null && !isHeld) {
 			transform.parent = null;
 			box.sharedMaterial.bounciness = bounciness;
 		}
@@ -70,7 +85,7 @@ public class Box : MonoBehaviour {
 				pushDamp = 4f;
 			}else pushDamp = 1f;
 
-			Vector2 contactPoint = new Vector2(transform.position.x, transform.position.y);
+			Vector2 contactPoint = new Vector2(transform.position.x, transform.position.y -0.5f);
 			boxBody.AddForceAtPosition(force * DampenPush(pushForce, pushDamp), contactPoint, ForceMode2D.Impulse);
 		}
 	}

@@ -4,20 +4,23 @@ using System.Collections;
 public class DestroyGOAfter : MonoBehaviour {
 
 	public float destroyAfterSecs;
+	float timer = 0f;
+	bool dest;
 
 	void Start(){
 		if(destroyAfterSecs > 0){
-			DestroyAfter (destroyAfterSecs);
+			dest = true;
+		}
+	}
+	void Update(){
+		if(dest){
+			if(timer < destroyAfterSecs){
+				timer += Time.deltaTime;
+			}else DestroyGameObject();
 		}
 	}
 
-	IEnumerator DestroyAfter(float time){
-		yield return new WaitForSeconds(time);
-		DestroyGameObject();
-	}
-
-
 	public void DestroyGameObject () {
-		Destroy (gameObject);
+		Destroy (this.gameObject);
 	}
 }
