@@ -60,7 +60,6 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	public void LoadLevel(int levelId){
-		Debug.Log("New level load: "+ ReturnLevelNumber());
 		Camera2DFollow.firstSlowPan = true;
 		if (ReturnLevelNumber() > 1) {
 			FindObjectOfType<MusicManager> ().ChangeMusicOnExitMenus ();
@@ -126,5 +125,12 @@ public class LevelManager : MonoBehaviour {
 	}
 	public void MuteSound(){
 		FindObjectOfType<MusicManager>().SwitchMute();
+	}
+	void OnApplicationFocus(bool focusState){
+		if (focusState == true){
+			Cursor.visible = true;;
+		}else{
+			EnterPauseMenu();
+		}
 	}
 }

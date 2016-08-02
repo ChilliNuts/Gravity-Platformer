@@ -20,7 +20,6 @@ public class TriggerArea : MonoBehaviour {
 				foreach (ButtonSwitchesOn s in switchOn) {
 					if (s.switchState == ButtonSwitchesOn.SwitchState.IDLE) {
 						s.switchState = ButtonSwitchesOn.SwitchState.ON;
-						print ("triggerarea on");
 					}
 				}
 				if (singleUse) {
@@ -36,7 +35,6 @@ public class TriggerArea : MonoBehaviour {
 				foreach (ButtonSwitchesOn s in switchOn) {
 					if (s.switchState == ButtonSwitchesOn.SwitchState.IDLE) {
 						s.switchState = ButtonSwitchesOn.SwitchState.ON;
-						print("triggerarea on");
 					}
 				}
 				if (singleUse){

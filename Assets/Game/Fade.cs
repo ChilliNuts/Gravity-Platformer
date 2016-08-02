@@ -31,7 +31,6 @@ public class Fade : MonoBehaviour {
 	}
 
 	void Update(){
-		print(firstRunLvlOne);
 		if(fadeOutAfter > 0f){
 			FadeOutAfter();
 		}

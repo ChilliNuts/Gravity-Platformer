@@ -49,6 +49,7 @@ public class MovingPlatform : MonoBehaviour {
 			transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
 		}
 		if(moving){
+			
 			if(targetWaypointIndex >= waypoints.Length){
 				if (reverse){
 					reversing = true;
@@ -56,11 +57,14 @@ public class MovingPlatform : MonoBehaviour {
 				}
 				else targetWaypointIndex = 0;
 			}
+
+
 			if(transform.position != waypoints[targetWaypointIndex].position){
 				transform.position = Vector2.MoveTowards (transform.position, 
 					waypoints[targetWaypointIndex].position, 
 					moveSpeed * Time.deltaTime);
 			}else{
+				
 				if (reversing) {
 					if(targetWaypointIndex > 0){
 						targetWaypointIndex--;

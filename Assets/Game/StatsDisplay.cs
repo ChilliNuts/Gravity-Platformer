@@ -10,7 +10,7 @@ public class StatsDisplay : MonoBehaviour {
 	void Start () {
 		int totalDeaths = PlayerPrefsManager.ReturnStat("deaths");
 		int totalBeamsFired = PlayerPrefsManager.ReturnStat("beamsFired");
-		statDisplay.text = "You died a total of "+ totalDeaths +" times,\n and fired a total of "
+		statDisplay.text += "\nYou died a total of "+ totalDeaths +" times,\n and fired a total of "
 			+ totalBeamsFired +" Gravitron beams.";
 	}
 }
