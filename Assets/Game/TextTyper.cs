@@ -5,8 +5,7 @@ using UnityEngine.UI;
 public class TextTyper : MonoBehaviour {
 
 	public float letterDelay = 0.2f;
-
-	string message;
+	[HideInInspector] public string message;
 	Text textComp;
 
 
@@ -14,6 +13,11 @@ public class TextTyper : MonoBehaviour {
 	void Start () {
 		textComp = GetComponent<Text>();
 		message = textComp.text;
+		textComp.text = "";
+	}
+
+	public void StartTyping(){
+		StopCoroutine(TypeText());
 		textComp.text = "";
 		StartCoroutine(TypeText());
 	}

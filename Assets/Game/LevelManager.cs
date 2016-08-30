@@ -14,10 +14,11 @@ public class LevelManager : MonoBehaviour {
 	CustomCursor cursor;
 	Fade levelCurtain;
 	public AudioClip[] musicPoolArray;
+	LevelTitle levelTitle;
 
 
 	void Start(){
-		
+		levelTitle = FindObjectOfType<LevelTitle>();
 		if(GameObject.FindObjectOfType<PlayerController>() != null){
 			playerBody = GameObject.FindObjectOfType<PlayerController>().GetComponent<Rigidbody2D>();
 		}
@@ -47,7 +48,6 @@ public class LevelManager : MonoBehaviour {
 	void Update(){
 
 		if(Input.GetKeyDown(KeyCode.Escape)){
-			LevelTitle levelTitle = FindObjectOfType<LevelTitle>();
 
 			if(LevelManager.ReturnLevelNumber() >= 1 && pauseMenu != null && levelTitle == null){
 				if(!gamePaused){
@@ -130,6 +130,9 @@ public class LevelManager : MonoBehaviour {
 		if (focusState == true){
 			Cursor.visible = true;;
 		}else{
+			if(levelTitle.gameObject.activeInHierarchy == true){
+				levelTitle.gameObject.SetActive(false);
+			}
 			EnterPauseMenu();
 		}
 	}
