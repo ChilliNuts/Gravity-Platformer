@@ -63,7 +63,7 @@ public class Gun : MonoBehaviour {
 		}else if(hit.collider.gameObject.tag == "Box"){
 			if (hit.distance <= grabDistance) {
 				PickUpBox (hit.collider.gameObject);
-			}
+			}else Instantiate (lazerFailFX, hit.point, Quaternion.identity);
 		}else Instantiate (lazerFailFX, hit.point, Quaternion.identity);
 	}
 

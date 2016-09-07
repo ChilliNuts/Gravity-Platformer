@@ -103,6 +103,7 @@ public class LevelManager : MonoBehaviour {
 	void SetCustomCursor(bool c){
 		cursor.useCustomCursor = c;
 		cursor.updateCursor = true;
+		Cursor.visible = true;
 	}
 
 	public static int ReturnLevelNumber(){
@@ -128,12 +129,17 @@ public class LevelManager : MonoBehaviour {
 	}
 	void OnApplicationFocus(bool focusState){
 		if (focusState == true){
-			Cursor.visible = true;;
+			if(SceneManager.GetActiveScene().buildIndex != 0){
+				Cursor.visible = true;
+			}
+
 		}else{
-			if(levelTitle.gameObject.activeInHierarchy == true){
+			if(levelTitle != null && levelTitle.gameObject.activeInHierarchy == true){
 				levelTitle.gameObject.SetActive(false);
 			}
-			EnterPauseMenu();
+			if(LevelManager.ReturnLevelNumber() >= 1 && pauseMenu != null){
+				EnterPauseMenu();
+			}
 		}
 	}
 }

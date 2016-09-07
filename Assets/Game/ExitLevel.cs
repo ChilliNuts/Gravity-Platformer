@@ -10,11 +10,13 @@ public class ExitLevel : MonoBehaviour {
 	public GameObject exitFX;
 	public AudioClip exitSFX;
 	bool exited = false;
+	CubeFollow cube;
 
 	void Start(){
 		levelManager = FindObjectOfType<LevelManager>();
 		player = FindObjectOfType<PlayerController>();
 		anim = GetComponent<Animator>();
+		cube = FindObjectOfType<CubeFollow>();
 	}
 
 	void OnTriggerStay2D(Collider2D trigger){
@@ -37,7 +39,10 @@ public class ExitLevel : MonoBehaviour {
 		Instantiate(exitFX, player.transform.position, transform.rotation);
 		player.cameraTargetChild.GetComponent<CameraTarget>().playerIsDead = true;
 		player.cameraTargetChild.transform.parent = null;
-		player.transform.position = new Vector3(666, 666, 666);
+		if (cube != null) {
+			cube.OnExit ();
+		}
+		player.transform.position = new Vector3(-666, -666, -666);
 		anim.SetTrigger("playerExit");
 		Camera2DFollow.firstSlowPan = true;
 		Invoke("NextLevel", loadNextLevelAfter);

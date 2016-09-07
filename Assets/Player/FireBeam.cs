@@ -4,7 +4,7 @@ using System.Collections;
 public class FireBeam : MonoBehaviour {
 
 	LineRenderer beam;
-	public GameObject lazerSpawner;
+	[HideInInspector] public GameObject lazerSpawner;
 	public float beamLife = 1f;
 	public AudioClip beamSFX;
 	Gun gun;
@@ -19,13 +19,14 @@ public class FireBeam : MonoBehaviour {
 	}
 	
 	public IEnumerator Beam(RaycastHit2D rayHit){
+		transform.position = lazerSpawner.transform.position;
 		AudioSource.PlayClipAtPoint(beamSFX, Camera.main.transform.position, 0.6f);
 		float storedBeamLife = beamLife;
 		float counter = 0f;
 		float endWidth = 0.8f;
 		float startWidth = 0.3f;
 		beam.enabled = true;
-		transform.position = lazerSpawner.transform.position;
+
 
 		beam.SetPosition(0, transform.position);
 		beam.SetPosition(1, rayHit.point);

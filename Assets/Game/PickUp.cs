@@ -31,7 +31,7 @@ public class PickUp : MonoBehaviour {
 			gunBarrel.GetComponent<FireBeam>().lazerSpawner = GameObject.FindGameObjectWithTag("GunTip");
 
 			gunPickupFX.loop = false;
-			player.GetComponent<Gun>().enabled = true;
+			//player.GetComponent<Gun>().enabled = true;
 			lookAtMouse.flip = true;
 
 

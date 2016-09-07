@@ -5,24 +5,25 @@ public class PlayerController : MonoBehaviour {
 
 	public float moveSpeed;
 	public float jumpForce;
-	public bool grounded = false;
-	public bool rotating = false;
+	[HideInInspector] public bool grounded = false;
+	[HideInInspector] public bool rotating = false;
 	public Transform groundedTarget1;
 	public Transform groundedTarget2;
 	public LayerMask playerMask;
 	public GameObject deathFX;
 	public GameObject playerGhost;
-	public bool magnetised = false;
+	[HideInInspector] public bool magnetised = false;
 	public enum FloorDirection {DOWN, UP, LEFT, RIGHT};
-	public FloorDirection floorDirection;
+	[HideInInspector] public FloorDirection floorDirection;
 	public GameObject cameraTargetChild;
-	public bool facingRight = true;
+	[HideInInspector] public bool facingRight = true;
 	Quaternion targetRot = Quaternion.identity;
 	public AudioClip hitGroundSFX;
 	public AudioClip dieSFX;
 	Rigidbody2D rB2D;
 	Animator anim;
-	public bool playerDestroyed = false;
+	[HideInInspector] public bool playerDestroyed = false;
+	[HideInInspector] public bool canMove = true;
 	public GameObject entryFX;
 	public GameObject footDustFX;
 	GameObject dustSpawnPos;
@@ -41,12 +42,18 @@ public class PlayerController : MonoBehaviour {
 		gun = GetComponent<Gun>();
 	}
 	void FixedUpdate(){
-		Move ();
+		if (canMove) {
+			Move ();
+		}
 	}
 	// Update is called once per frame
 	void Update () {
 		
-		Jump ();
+		if (canMove) {
+			Jump ();
+		}else if(anim.GetBool("boolRun")) {
+			anim.SetBool("boolRun", false);
+		}
 
 		// Check if grounded
 		if(Physics2D.Linecast(groundedTarget1.transform.position, groundedTarget2.transform.position, ~playerMask)){
@@ -232,6 +239,12 @@ public class PlayerController : MonoBehaviour {
 		transform.localScale = theScale;
 	}
 	public void DestroyPlayer(){
+		if (!playerDestroyed) {
+			PlayerPrefsManager.UpdateStats (1, 0);
+			cameraTargetChild.GetComponent<CameraTarget>().playerIsDead = true;
+			playerDestroyed = true;
+			transform.FindChild("CubeFollowTarget").parent = null;
+		}
 		AudioSource.PlayClipAtPoint(dieSFX, transform.position);
 		Instantiate(deathFX, transform.position, Quaternion.identity);
 		Instantiate(playerGhost, transform.position, Quaternion.identity);
@@ -240,11 +253,7 @@ public class PlayerController : MonoBehaviour {
 		transform.position = new Vector3(-666, -666, -666);
 		rB2D.velocity = Vector2.zero;
 		rB2D.gravityScale = 0;
-		if (!playerDestroyed) {
-			PlayerPrefsManager.UpdateStats (1, 0);
-			cameraTargetChild.GetComponent<CameraTarget>().playerIsDead = true;
-			playerDestroyed = true;
-		}
+
 	}
 	void OnCollisionEnter2D(Collision2D col){
 		if(col.gameObject.GetComponentInParent<MovingPlatform>()){

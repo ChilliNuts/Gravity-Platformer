@@ -10,6 +10,7 @@ public class RotateCube : MonoBehaviour {
 	float timer = 0f;
 	Quaternion newTargetRot;
 	int[] randomInts = new int[] {-180, -90, -90, -90, 0, 90, 90, 90, 180};
+	[HideInInspector] public bool canRotate = true;
 
 	// Use this for initialization
 	void Start () {
@@ -20,7 +21,7 @@ public class RotateCube : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		timer += Time.deltaTime;
-		if(timer >= waitTime){
+		if(timer >= waitTime && canRotate){
 			RotateCubeTo(transform.rotation, rotSpeed);
 
 		}

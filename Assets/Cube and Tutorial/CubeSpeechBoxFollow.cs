@@ -1,16 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CubeFollow : MonoBehaviour {
+public class CubeSpeechBoxFollow : MonoBehaviour {
 
-	public GameObject followTarget;
+	GameObject followTarget;
 	public float followSpeed;
-	
+	TextTyper textTyper;
+	ParticleSystem particles;
+
+	void Start(){
+		followTarget = FindObjectOfType<CubeTextFollow>().gameObject;
+		textTyper = GetComponentInChildren<TextTyper>();
+		particles = GetComponent<ParticleSystem>();
+	}
 	// Update is called once per frame
 	void Update () {
 		Bob();
 		if(followTarget != null){
-			
 			transform.position = Vector3.Slerp(transform.position, followTarget.transform.position, followSpeed*Time.deltaTime);
 		}
 	}
@@ -19,6 +25,12 @@ public class CubeFollow : MonoBehaviour {
 		transform.position = new Vector3(transform.position.x, yPos , transform.position.z);
 	}
 	public void StartText(){
-		GetComponentInChildren<TextTyper>().StartTyping();
+		textTyper.StartTyping();
+	}
+	public void ParticlesOn(){
+		particles.Play();
+	}
+	public void ParticlesOff(){
+		particles.Stop();
 	}
 }
