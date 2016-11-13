@@ -14,7 +14,7 @@ public class CubeSpeechTrigger : MonoBehaviour {
 	PlayerController player;
 	GameObject cube;
 	Animator cubeSpeechBoxAnim;
-	TextTyper cubeTyper;
+	CubeTextTyper cubeTyper;
 	float finishedPageTimer = 0f;
 
 
@@ -23,7 +23,7 @@ public class CubeSpeechTrigger : MonoBehaviour {
 		cube = FindObjectOfType<RotateCube>().gameObject;
 		player = FindObjectOfType<PlayerController>();
 		cubeSpeechBoxAnim = cubeSpeechBox.GetComponent<Animator>();
-		cubeTyper = cubeSpeechBox.GetComponentInChildren<TextTyper>();
+		cubeTyper = cubeSpeechBox.GetComponentInChildren<CubeTextTyper>();
 		for (int i = 0; i < whatToSay.Length; i++){
 			whatToSay[i] = whatToSay[i].Replace("\\n", "\n");
 		}

@@ -43,6 +43,11 @@ public class LevelManager : MonoBehaviour {
 		if(SceneManager.GetActiveScene().buildIndex <= 3){
 			SetCustomCursor(false);
 		}
+		if(SceneManager.GetActiveScene().name == "03aWin"){
+			MusicManager musicManager = FindObjectOfType<MusicManager>();
+			musicManager.firstTrack = musicPoolArray[0];
+			musicManager.ChangeMusicOnExitMenus();
+		}
 	}
 
 	void Update(){

@@ -54,17 +54,23 @@ public class Gun : MonoBehaviour {
 		RaycastHit2D hit = Physics2D.Raycast (transform.position, shootDirection, 300f, ~player.playerMask);
 
 		StartCoroutine(fireBeam.Beam (hit));
-		if (hit.collider.gameObject.tag == "walls") {
-			LazerContact (hit);
-			if (!player.magnetised) {
-				player.ResetPlayerFloor ();
-				StartCoroutine( player.RotatePlayer ());
+		if (hit.collider.gameObject != null) {
+			if (hit.collider.gameObject.tag == "walls") {
+				LazerContact (hit);
+				if (!player.magnetised) {
+					player.ResetPlayerFloor ();
+					StartCoroutine (player.RotatePlayer ());
+				}
+			} else if (hit.collider.gameObject.tag == "Box") {
+				if (hit.distance <= grabDistance) {
+					PickUpBox (hit.collider.gameObject);
+				} else {
+					Instantiate (lazerFailFX, hit.point, Quaternion.identity);
+				}
+			} else {
+				Instantiate (lazerFailFX, hit.point, Quaternion.identity);
 			}
-		}else if(hit.collider.gameObject.tag == "Box"){
-			if (hit.distance <= grabDistance) {
-				PickUpBox (hit.collider.gameObject);
-			}else Instantiate (lazerFailFX, hit.point, Quaternion.identity);
-		}else Instantiate (lazerFailFX, hit.point, Quaternion.identity);
+		}
 	}
 
 	void LazerContact(RaycastHit2D hit){
@@ -133,3 +139,25 @@ public class Gun : MonoBehaviour {
 //		bulletRB.velocity = shootDirection * bulletSpeed;
 //	}
 }
+
+
+//if (hit != null) {
+//	if (hit.collider.gameObject.tag == "walls") {
+//		LazerContact (hit);
+//		if (!player.magnetised) {
+//			player.ResetPlayerFloor ();
+//			StartCoroutine (player.RotatePlayer ());
+//		}
+//		return;
+//	}	
+//
+//	if (hit.collider.gameObject.tag == "Box") {
+//		if (hit.distance <= grabDistance) {
+//			PickUpBox (hit.collider.gameObject);
+//			return;
+//		} 
+//	}
+//
+//	Instantiate (lazerFailFX, hit.point, Quaternion.identity);
+//
+//}

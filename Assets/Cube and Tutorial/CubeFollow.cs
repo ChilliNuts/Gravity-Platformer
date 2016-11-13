@@ -19,7 +19,7 @@ public class CubeFollow : MonoBehaviour {
 	void Update () {
 		NearExit();
 		Bob();
-		if(player.playerDestroyed){
+		if(player != null && player.playerDestroyed){
 			//player.transform.FindChild("CubeFollowTarget").parent = null;
 			GameObject.FindGameObjectWithTag("CubeToFollow").transform.parent = null;
 		}

@@ -5,12 +5,12 @@ public class CubeSpeechBoxFollow : MonoBehaviour {
 
 	GameObject followTarget;
 	public float followSpeed;
-	TextTyper textTyper;
+	CubeTextTyper textTyper;
 	ParticleSystem particles;
 
 	void Start(){
 		followTarget = FindObjectOfType<CubeTextFollow>().gameObject;
-		textTyper = GetComponentInChildren<TextTyper>();
+		textTyper = GetComponentInChildren<CubeTextTyper>();
 		particles = GetComponent<ParticleSystem>();
 	}
 	// Update is called once per frame
