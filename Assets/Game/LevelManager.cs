@@ -32,6 +32,16 @@ public class LevelManager : MonoBehaviour {
 		if(PlayerPrefsManager.ReturnMaxLevel() < 1){
 			PlayerPrefsManager.UnlockMaxLevel(1);
 		}
+	
+		if(SceneManager.GetActiveScene().buildIndex <= 3){
+			SetCustomCursor(false);
+		}
+		if(SceneManager.GetActiveScene().name == "03aWin"){
+			MusicManager musicManager = FindObjectOfType<MusicManager>();
+			musicManager.firstTrack = musicPoolArray[0];
+			musicManager.ChangeMusicOnExitMenus();
+			Cursor.visible = false;
+		}
 		if (SceneManager.GetActiveScene().name == "00Splash"){
 			Cursor.visible = false;
 			if (autoLoadNextLevelAfter <= 0){
@@ -40,21 +50,16 @@ public class LevelManager : MonoBehaviour {
 				Invoke ("LoadNextLevel", autoLoadNextLevelAfter);
 			}
 		}
-		if(SceneManager.GetActiveScene().buildIndex <= 3){
-			SetCustomCursor(false);
-		}
-		if(SceneManager.GetActiveScene().name == "03aWin"){
-			MusicManager musicManager = FindObjectOfType<MusicManager>();
-			musicManager.firstTrack = musicPoolArray[0];
-			musicManager.ChangeMusicOnExitMenus();
-		}
 	}
 
 	void Update(){
+		
 
 		if(Input.GetKeyDown(KeyCode.Escape)){
-
-			if(LevelManager.ReturnLevelNumber() >= 1 && pauseMenu != null && levelTitle == null){
+			print("esc");
+			print(ReturnLevelNumber());
+			if(LevelManager.ReturnLevelNumber() >= 1 && pauseMenu != null && !levelTitle.gameObject.activeInHierarchy){
+				
 				if(!gamePaused){
 					EnterPauseMenu();
 				}else if(gamePaused){
@@ -78,7 +83,6 @@ public class LevelManager : MonoBehaviour {
 		//SceneManager.LoadScene(PlayerPrefsManager.ReturnMaxLevel() + 3);
 	}
 	public void QuitRequest(){
-		Debug.Log("You have quit!");
 		Application.Quit();
 	}
 	public void LoadNextLevel(){
@@ -116,7 +120,7 @@ public class LevelManager : MonoBehaviour {
 		return SceneManager.GetActiveScene().buildIndex - numberOfOptionsScenes;
 	}
 	public static int TotalPlayableLevels(){
-		int numberOfNonPlayableLevels = 5;
+		int numberOfNonPlayableLevels = 7;
 		return SceneManager.sceneCountInBuildSettings - numberOfNonPlayableLevels;
 	}
 

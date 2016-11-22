@@ -11,7 +11,7 @@ public class MovingPlatform : MonoBehaviour {
 	public bool reverse;
 	bool reversing;
 	ButtonSwitchesOn switchOn;
-	int targetWaypointIndex = 0;
+	[HideInInspector] public int targetWaypointIndex = 0;
 
 
 

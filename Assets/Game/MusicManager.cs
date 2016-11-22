@@ -89,7 +89,7 @@ public class MusicManager : MonoBehaviour {
 	}
 
 	float SecondsLeftInSong(AudioClip song){
-		if(songTimer < song.length){
+		if(songTimer < song.length && audioSources[sourceID].isPlaying){
 			songTimer += Time.deltaTime;
 		}
 		return song.length - songTimer;
@@ -102,8 +102,8 @@ public class MusicManager : MonoBehaviour {
 
 	public void SwitchMute(){
 		if(!isMuted){
-			audioSources[sourceID].Stop();
-			audioSources[GetNextTrackID(sourceID)].Stop();
+			audioSources[sourceID].Pause();
+			audioSources[GetNextTrackID(sourceID)].Pause();
 			ChangeMusicVolume(0f);
 			ChangeVolume(0f);
 			isMuted = true;
@@ -112,7 +112,6 @@ public class MusicManager : MonoBehaviour {
 			ChangeVolume(PlayerPrefsManager.GetMasterVolume());
 			audioSources[sourceID].Play();
 			isMuted = false;
-			songTimer = 0f;
 		}
 
 	}

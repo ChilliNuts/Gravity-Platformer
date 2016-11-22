@@ -15,6 +15,7 @@ public class Box : MonoBehaviour {
 	public bool destroyed;
 	public bool isHeld;
 	ParticleSystem orb;
+	bool onMovingPlatform;
 
 	// Use this for initialization
 	void Start () {
@@ -61,6 +62,18 @@ public class Box : MonoBehaviour {
 		if (transform.parent != null && !isHeld) {
 			transform.parent = null;
 			box.sharedMaterial.bounciness = bounciness;
+			onMovingPlatform = false;
+		}
+	}
+
+	void OnCollisionStay2D(Collision2D col){
+
+		if (!onMovingPlatform) {
+			if (col.gameObject.GetComponentInParent<MovingPlatform> ()) {
+				box.sharedMaterial.bounciness = 0f;
+				transform.parent = col.gameObject.transform.parent;
+				onMovingPlatform = true;
+			}
 		}
 	}
 
@@ -69,6 +82,7 @@ public class Box : MonoBehaviour {
 		if(col.gameObject.GetComponentInParent<MovingPlatform>()){
 			box.sharedMaterial.bounciness = 0f;
 			transform.parent = col.gameObject.transform.parent;
+			onMovingPlatform = true;
 		}
 		
 		if(col.gameObject != player.gameObject){

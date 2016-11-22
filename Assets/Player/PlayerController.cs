@@ -25,10 +25,10 @@ public class PlayerController : MonoBehaviour {
 	[HideInInspector] public bool playerDestroyed = false;
 	[HideInInspector] public bool canMove = true;
 	public GameObject entryFX;
-	public GameObject footDustFX;
-	GameObject dustSpawnPos;
-	bool dustSpawned;
 	Gun gun;
+	ParticleSystem dust;
+	CameraShake cShake;
+	bool onMPlatform;
 
 	
 
@@ -38,8 +38,9 @@ public class PlayerController : MonoBehaviour {
 		anim = GetComponent<Animator>();
 		cameraTargetChild = transform.FindChild("Camera Target").gameObject;
 		Instantiate(entryFX, transform.position, transform.rotation);
-		dustSpawnPos = GameObject.Find("DustSpawnPos");
 		gun = GetComponent<Gun>();
+		dust = GetComponentInChildren<ParticleSystem>();
+		cShake = Camera.main.GetComponent<CameraShake>();
 	}
 	void FixedUpdate(){
 		if (canMove) {
@@ -61,8 +62,7 @@ public class PlayerController : MonoBehaviour {
 			if (!grounded) {
 				grounded = true;
 				AudioSource.PlayClipAtPoint (hitGroundSFX, transform.position);
-				dustSpawned = false;
-				FootDust();
+				dust.Play();
 				if (!anim.GetBool ("boolGrounded")) {
 					anim.SetBool ("boolGrounded", true);
 				}
@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour {
 		}else {
 			if (grounded) {
 				grounded = false;
-				FootDust();
+				dust.Play();
 				if (anim.GetBool ("boolGrounded")) {
 					anim.SetBool ("boolGrounded", false);
 				}
@@ -202,7 +202,7 @@ public class PlayerController : MonoBehaviour {
 
 	void Jump(){
 		if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)){
-
+			
 			if (grounded && floorDirection == FloorDirection.DOWN) {
 				//rB2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 				rB2D.velocity += jumpForce * Vector2.up;
@@ -240,6 +240,7 @@ public class PlayerController : MonoBehaviour {
 	}
 	public void DestroyPlayer(){
 		if (!playerDestroyed) {
+			cShake.Shake();
 			PlayerPrefsManager.UpdateStats (1, 0);
 			cameraTargetChild.GetComponent<CameraTarget>().playerIsDead = true;
 			playerDestroyed = true;
@@ -256,13 +257,27 @@ public class PlayerController : MonoBehaviour {
 
 	}
 	void OnCollisionEnter2D(Collision2D col){
-		if(col.gameObject.GetComponentInParent<MovingPlatform>()){
-			transform.parent = col.gameObject.transform.parent;
+		if (!onMPlatform) {
+			if (col.gameObject.GetComponentInParent<MovingPlatform> ()) {
+				transform.parent = col.gameObject.transform.parent;
+				onMPlatform = true;
+			}
 		}
 	}
+
+	void OnCollisionStay2D(Collision2D col){
+		if (!onMPlatform) {
+			if (col.gameObject.GetComponentInParent<MovingPlatform> ()) {
+				transform.parent = col.gameObject.transform.parent;
+				onMPlatform = true;
+			}
+		}
+	}
+
 	void OnCollisionExit2D(Collision2D col){
-		if (transform.parent != null) {
+		if (transform.parent != null && col.gameObject.layer != 14) {
 			transform.parent = null;
+			onMPlatform = false;
 		}
 	}
 	public void ResetPlayerFloor(){
@@ -301,14 +316,6 @@ public class PlayerController : MonoBehaviour {
 					StartCoroutine(RotatePlayer());
 				}
 			}
-		}
-	}
-	void FootDust(){
-		if (!dustSpawned) {
-			Vector2 spawnPos = dustSpawnPos.transform.position;
-
-			Instantiate (footDustFX, spawnPos, transform.rotation);
-			dustSpawned = true;
 		}
 	}
 }

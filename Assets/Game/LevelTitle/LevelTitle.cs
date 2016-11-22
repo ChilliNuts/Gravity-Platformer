@@ -10,7 +10,7 @@ public class LevelTitle : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		level = LevelManager.ReturnLevelNumber().ToString();
-		levelText.text = "Test Phase: "+level;
+		levelText.text = "Sequence: "+level;
 		if(Camera2DFollow.firstSlowPan == false){
 			SetInactive();
 		}
