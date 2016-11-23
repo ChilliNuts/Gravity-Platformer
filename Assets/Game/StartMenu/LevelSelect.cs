@@ -14,7 +14,12 @@ public class LevelSelect : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		#if UNITY_WEBGL
 		maxLevelUnlocked = PlayerPrefsManager.ReturnMaxLevel();
+		#endif
+		#if UNITY_STANDALONE
+		maxLevelUnlocked = SaveManager.localMaxLevel;
+		#endif
 		levelNumberSlider.maxValue = maxLevelUnlocked;
 		unlockedLevels.text = ("Levels Unlocked: " + maxLevelUnlocked.ToString()+" / "
 			+(LevelManager.TotalPlayableLevels()).ToString());

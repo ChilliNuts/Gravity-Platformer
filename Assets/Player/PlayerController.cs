@@ -241,7 +241,12 @@ public class PlayerController : MonoBehaviour {
 	public void DestroyPlayer(){
 		if (!playerDestroyed) {
 			cShake.Shake();
+			#if UNITY_WEBGL
 			PlayerPrefsManager.UpdateStats (1, 0);
+			#endif
+			#if UNITY_STANDALONE
+			SaveManager.localDeaths++;
+			#endif
 			cameraTargetChild.GetComponent<CameraTarget>().playerIsDead = true;
 			playerDestroyed = true;
 			transform.FindChild("CubeFollowTarget").parent = null;

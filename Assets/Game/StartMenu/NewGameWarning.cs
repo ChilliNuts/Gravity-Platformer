@@ -16,14 +16,27 @@ public class NewGameWarning : MonoBehaviour {
 	}
 
 	public void NewGame(){
+		#if UNITY_WEBGL
 		if(PlayerPrefsManager.ReturnMaxLevel() > 1 || PlayerPrefsManager.ReturnStat("deaths") > 0 || 
 			PlayerPrefsManager.ReturnStat("beamsFired") > 0){
 			warning.gameObject.SetActive(true);
 		} else StartCoroutine(StartLevelOne()); //levelManager.LoadLevel("02Level_01");
+		#endif
+		#if UNITY_STANDALONE
+		if(SaveManager.localMaxLevel > 1 || SaveManager.localDeaths > 0 || 
+			SaveManager.localShotsFired > 0){
+		warning.gameObject.SetActive(true);
+		} else StartCoroutine(StartLevelOne()); //levelManager.LoadLevel("02Level_01");
+		#endif
 	}
 
 	public void OkStartNewGame(){
+		#if UNITY_WEBGL
 		PlayerPrefsManager.ResetKeys();
+		#endif
+		#if UNITY_STANDALONE
+		SaveManager.ResetData();
+		#endif
 		warning.gameObject.SetActive(false);
 		StartCoroutine(StartLevelOne());
 		//levelManager.LoadLevel("02Level_01");

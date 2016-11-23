@@ -14,10 +14,12 @@ public class MusicManager : MonoBehaviour {
 	int sourceID = 0;
 	bool isMuted = false;
 
-
 	void Awake(){
 		DontDestroyOnLoad (gameObject);
 		audioSources = GetComponents<AudioSource>();
+		#if UNITY_STANDALONE
+		SaveManager.LoadGame();
+		#endif
 	}
 
 	// Use this for initialization

@@ -28,10 +28,17 @@ public class LevelManager : MonoBehaviour {
 		if(levelCurtain == null){
 			InstantiateCurtain();
 		}
-
+		#if UNITY_WEBGL
 		if(PlayerPrefsManager.ReturnMaxLevel() < 1){
 			PlayerPrefsManager.UnlockMaxLevel(1);
 		}
+		#endif
+		#if UNITY_STANDALONE
+		if(ReturnLevelNumber() == 1 && SaveManager.localMaxLevel < 1){
+			SaveManager.localMaxLevel = 1;
+		}
+		SaveManager.SaveGame();
+		#endif
 	
 		if(SceneManager.GetActiveScene().buildIndex <= 3){
 			SetCustomCursor(false);
@@ -53,11 +60,8 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	void Update(){
-		
 
 		if(Input.GetKeyDown(KeyCode.Escape)){
-			print("esc");
-			print(ReturnLevelNumber());
 			if(LevelManager.ReturnLevelNumber() >= 1 && pauseMenu != null && !levelTitle.gameObject.activeInHierarchy){
 				
 				if(!gamePaused){
@@ -79,16 +83,27 @@ public class LevelManager : MonoBehaviour {
 	public void ContinueGame(){
 		Camera2DFollow.firstSlowPan = true;
 		FindObjectOfType<MusicManager>().ChangeMusicOnExitMenus();
+		#if UNITY_WEBGL
 		FadeOutAndLoad(PlayerPrefsManager.ReturnMaxLevel() + 3);
-		//SceneManager.LoadScene(PlayerPrefsManager.ReturnMaxLevel() + 3);
+		#endif
+		#if UNITY_STANDALONE
+		FadeOutAndLoad(SaveManager.localMaxLevel + 3);
+		#endif
 	}
 	public void QuitRequest(){
 		Application.Quit();
 	}
 	public void LoadNextLevel(){
+		#if UNITY_WEBGL
 		if ((LevelManager.ReturnLevelNumber()) >= PlayerPrefsManager.ReturnMaxLevel()) {
 			PlayerPrefsManager.UnlockMaxLevel (PlayerPrefsManager.ReturnMaxLevel () + 1);
 		}
+		#endif
+		#if UNITY_STANDALONE
+		if ((LevelManager.ReturnLevelNumber()) >= SaveManager.localMaxLevel) {
+			SaveManager.localMaxLevel++;
+		}
+		#endif
 		FadeOutAndLoad(SceneManager.GetActiveScene().buildIndex + 1);
 		//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
@@ -149,6 +164,10 @@ public class LevelManager : MonoBehaviour {
 			if(LevelManager.ReturnLevelNumber() >= 1 && pauseMenu != null){
 				EnterPauseMenu();
 			}
+			SaveManager.SaveGame();
 		}
+	}
+	void OnApplicationQuit(){
+		SaveManager.SaveGame();
 	}
 }

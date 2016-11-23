@@ -33,7 +33,12 @@ public class Gun : MonoBehaviour {
 			if (!holdingObject) {
 				if (canFireLazer && !player.playerDestroyed) {
 					canFireLazer = false;
+					#if UNITY_WEBGL
 					PlayerPrefsManager.UpdateStats (0, 1);
+					#endif
+					#if UNITY_STANDALONE
+					SaveManager.localShotsFired++;
+					#endif
 					FireLazer ();
 				}
 			}else DropBox(heldObject);
