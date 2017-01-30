@@ -49,6 +49,7 @@ public class NewGameWarning : MonoBehaviour {
 		Animator canvasAnim = menuCanvas.GetComponent<Animator>();
 		canvasAnim.SetTrigger("startGame");
 		menuCanvas.GetComponent<StartGame>().gameStarted = true;
+		Fade.firstRunLvlOne = true;
 		yield return new WaitForSeconds(loadAfter);
 		levelManager.LoadLevel(4);
 	}

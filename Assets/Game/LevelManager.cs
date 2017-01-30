@@ -15,9 +15,10 @@ public class LevelManager : MonoBehaviour {
 	Fade levelCurtain;
 	public AudioClip[] musicPoolArray;
 	LevelTitle levelTitle;
-
+	MusicManager musicManager;
 
 	void Start(){
+		musicManager = FindObjectOfType<MusicManager>();
 		levelTitle = FindObjectOfType<LevelTitle>();
 		if(GameObject.FindObjectOfType<PlayerController>() != null){
 			playerBody = GameObject.FindObjectOfType<PlayerController>().GetComponent<Rigidbody2D>();
@@ -44,9 +45,7 @@ public class LevelManager : MonoBehaviour {
 			SetCustomCursor(false);
 		}
 		if(SceneManager.GetActiveScene().name == "03aWin"){
-			MusicManager musicManager = FindObjectOfType<MusicManager>();
-			musicManager.firstTrack = musicPoolArray[0];
-			musicManager.ChangeMusicOnExitMenus();
+			musicManager.ChangeMusicOnExitMenus(34);
 			Cursor.visible = false;
 		}
 		if (SceneManager.GetActiveScene().name == "00Splash"){
@@ -76,18 +75,21 @@ public class LevelManager : MonoBehaviour {
 	public void LoadLevel(int levelId){
 		Camera2DFollow.firstSlowPan = true;
 		if (ReturnLevelNumber() > 1) {
-			FindObjectOfType<MusicManager> ().ChangeMusicOnExitMenus ();
+			musicManager.ChangeMusicOnExitMenus (levelId);
 		}
 		FadeOutAndLoad(levelId);
 	}
 	public void ContinueGame(){
 		Camera2DFollow.firstSlowPan = true;
-		FindObjectOfType<MusicManager>().ChangeMusicOnExitMenus();
 		#if UNITY_WEBGL
-		FadeOutAndLoad(PlayerPrefsManager.ReturnMaxLevel() + 3);
+		int level = PlayerPrefsManager.ReturnMaxLevel() + 3;
+		musicManager.ChangeMusicOnExitMenus(level);
+		FadeOutAndLoad(level);
 		#endif
 		#if UNITY_STANDALONE
-		FadeOutAndLoad(SaveManager.localMaxLevel + 3);
+		int level = SaveManager.localMaxLevel + 3;
+		musicManager.ChangeMusicOnExitMenus(level);
+		FadeOutAndLoad(level);
 		#endif
 	}
 	public void QuitRequest(){

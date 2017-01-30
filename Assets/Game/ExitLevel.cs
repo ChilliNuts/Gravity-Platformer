@@ -37,6 +37,7 @@ public class ExitLevel : MonoBehaviour {
 	void Exit(){
 		AudioSource.PlayClipAtPoint(exitSFX, transform.position);
 		Instantiate(exitFX, player.transform.position, transform.rotation);
+		player.GetComponent<Gun>().canFireLazer = false;
 		player.cameraTargetChild.GetComponent<CameraTarget>().playerIsDead = true;
 		player.cameraTargetChild.transform.parent = null;
 		if (cube != null) {

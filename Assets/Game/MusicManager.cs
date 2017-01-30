@@ -7,10 +7,11 @@ public class MusicManager : MonoBehaviour {
 	public float fadeTime = 5f;
 
 	public AudioClip firstTrack;
+	public AudioClip introTrack;
 
-	float songTimer;
 	float secondsLeftInSong;
 	bool fadeOutMusic;
+	bool canFadeMusic = true;
 	int sourceID = 0;
 	bool isMuted = false;
 
@@ -36,28 +37,28 @@ public class MusicManager : MonoBehaviour {
 	}
 
 	void Update(){
-		
-		if (!isMuted) {
-			secondsLeftInSong = SecondsLeftInSong (audioSources [sourceID].clip);
+		if (audioSources [sourceID].clip != null) {
+			secondsLeftInSong = SecondsLeftInSong (audioSources [sourceID]);
 		}
-
 
 		if (secondsLeftInSong <= fadeTime + 0.5f){
 			fadeOutMusic = true;
 		}
 		if(fadeOutMusic){
-			fadeOutMusic = false;
+			
 			LoadSong (audioSources[sourceID], audioSources[GetNextTrackID(sourceID)]);
 			StartCoroutine(CrossFadeMusic(audioSources[sourceID], audioSources[GetNextTrackID(sourceID)], fadeTime));
 		}
 	}
 
 	IEnumerator CrossFadeMusic(AudioSource currentSource, AudioSource nextSource, float fadeTime){
-
+		if(!canFadeMusic){
+			yield return new WaitUntil(() => canFadeMusic == true);
+		}
+		canFadeMusic = false;
 		float startVolume = PlayerPrefsManager.GetMusicVolume();
 		nextSource.volume = 0f;
 		sourceID = GetNextTrackID(sourceID);
-		songTimer = 0f;
 		nextSource.Play();
 		fadeOutMusic = false;
 		while(currentSource.volume > 0){
@@ -68,6 +69,7 @@ public class MusicManager : MonoBehaviour {
 		nextSource.volume = startVolume;
 		currentSource.Stop();
 		currentSource.clip = null;
+		canFadeMusic = true;
 	}
 
 	void LoadSong (AudioSource currentSource, AudioSource nextSource){
@@ -90,29 +92,32 @@ public class MusicManager : MonoBehaviour {
 		else return 0;
 	}
 
-	float SecondsLeftInSong(AudioClip song){
-		if(songTimer < song.length && audioSources[sourceID].isPlaying){
-			songTimer += Time.deltaTime;
-		}
-		return song.length - songTimer;
+	float SecondsLeftInSong(AudioSource song){
+		
+		return song.clip.length - song.time;
 	}
+		
 
-	public void ChangeMusicOnExitMenus(){
-		audioSources[GetNextTrackID(sourceID)].clip = firstTrack;
-		fadeOutMusic = true;
+	public void ChangeMusicOnExitMenus(int lvl){
+		if (!fadeOutMusic) {
+			if (lvl >= 15 && lvl <= 33 && audioSources[sourceID].clip != firstTrack) {
+				audioSources [GetNextTrackID (sourceID)].clip = firstTrack;
+				fadeOutMusic = true;
+			}else if(audioSources[sourceID].clip != introTrack){
+				audioSources [GetNextTrackID (sourceID)].clip = introTrack;
+				fadeOutMusic = true;
+			} 
+		}
 	}
 
 	public void SwitchMute(){
 		if(!isMuted){
-			audioSources[sourceID].Pause();
-			audioSources[GetNextTrackID(sourceID)].Pause();
 			ChangeMusicVolume(0f);
 			ChangeVolume(0f);
 			isMuted = true;
 		}else if(isMuted){
 			ChangeMusicVolume(PlayerPrefsManager.GetMusicVolume());
 			ChangeVolume(PlayerPrefsManager.GetMasterVolume());
-			audioSources[sourceID].Play();
 			isMuted = false;
 		}
 

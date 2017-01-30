@@ -10,6 +10,7 @@ public class LevelSelect : MonoBehaviour {
 	public Text unlockedLevels;
 	int levelToLoad;
 	int maxLevelUnlocked;
+	public Button loadLevelButton;
 
 
 	// Use this for initialization
@@ -23,6 +24,9 @@ public class LevelSelect : MonoBehaviour {
 		levelNumberSlider.maxValue = maxLevelUnlocked;
 		unlockedLevels.text = ("Levels Unlocked: " + maxLevelUnlocked.ToString()+" / "
 			+(LevelManager.TotalPlayableLevels()).ToString());
+		if(maxLevelUnlocked > 0){
+			levelNumberSlider.minValue = 1;
+		} else loadLevelButton.interactable = false;
 	}
 	
 	// Update is called once per frame
@@ -32,7 +36,11 @@ public class LevelSelect : MonoBehaviour {
 	}
 
 	public void GoToSelectedLevel(){
+		if (levelToLoad == 4 && LevelManager.ReturnLevelNumber() != 1) {
+			Fade.firstRunLvlOne = false;
+		}
 		FindObjectOfType<LevelManager>().FadeOutAndLoad(levelToLoad);
+		FindObjectOfType<MusicManager>().ChangeMusicOnExitMenus(levelToLoad);
 		//SceneManager.LoadScene(levelToLoad);
 	}
 }
